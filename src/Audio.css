@@ -1,0 +1,54 @@
+.stopwatch-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    max-width: 400px;
+    font-family: sans-serif;
+    text-align: center;
+  }
+  
+  .time-display {
+    font-size: 5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .track-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  .header {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+  }
+  
+  .reactPlayer {
+    margin-bottom: 1rem;
+    display: none;
+  }
+  
+  .controls {
+    display: flex;
+    justify-content: center;
+  }
+  
+  button {
+    margin: 0 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #0062cc;
+  }
+  
