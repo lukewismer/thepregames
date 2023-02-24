@@ -183,7 +183,7 @@ function PowerHourForm() {
     if (playlist === "prom") {
         playlistSongs = songs;
     }
-    navigate("/powerhour", {songInterval, playlistSongs, tornadoInterval, namesList})
+    navigate("/powerhour", { state: {songInterval, playlistSongs, tornadoInterval, namesList}})
   }
 
   return (

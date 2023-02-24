@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import ReactPlayer from "react-player";
+import { useLocation } from 'react-router-dom';
 import Navbar from '../../Components/Navbar/Navbar';
 import './PowerHour.css';
+import { useNavigate } from 'react-router-dom';
 
 
 
-const PowerHour = ({songInterval, playlistSongs, tornadoInterval, namesList}) => {
-  
-  const songs = playlistSongs;
+const PowerHour = () => {
+
+  const location = useLocation();
+  const songs = location.state.playlistSongs;
+  const songInterval = location.state.songInterval;
+  const tornadoInterval= location.state.tornadoInterval;
+  const players = location.state.namesList;
 
   const [currentSongIndex, setCurrentSongIndex] = useState(selectRandom(songs));
   const [time, setTime] = useState({ min: 0, sec: 0});
@@ -18,8 +24,7 @@ const PowerHour = ({songInterval, playlistSongs, tornadoInterval, namesList}) =>
 
   const tornadoDisplayTime = 5000;
   const images = [require("../../Images/cat.jpeg")]
-  const players = namesList;
-  
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -77,6 +82,8 @@ const PowerHour = ({songInterval, playlistSongs, tornadoInterval, namesList}) =>
     setTime({ min: 0, sec: 0, ms: 0 });
     setCurrentSongIndex(0);
     setIsRunning(false);
+    
+    navigate("/powerhourform");
   };
 
   return (
