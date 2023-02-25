@@ -165,6 +165,7 @@ function PowerHourForm() {
   const [songInterval, setSongInterval] = useState(60000); 
   const [tornadoInterval, setTornadoInterval] = useState(180000); 
   const [namesList, setNamesList] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
 
@@ -180,6 +181,12 @@ function PowerHourForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     let playlistSongs = null;
+
+    if (namesList.length === 0) {
+      setErrorMessage('Please enter at least one name');
+      return;
+    }
+
     if (playlist === "prom") {
         playlistSongs = songs;
     }
@@ -191,6 +198,7 @@ function PowerHourForm() {
         <Navbar />
         <form className="form-container" onSubmit={handleSubmit}>
             <h2>Power Hour Set Up</h2>
+            {errorMessage && <div className="error">{errorMessage}</div>}
             <label htmlFor="name">Name:</label>
             <input type="text" value={name} onChange={handleNameChange} />
             <button type="button" onClick={handleAddName}>Add Name</button>

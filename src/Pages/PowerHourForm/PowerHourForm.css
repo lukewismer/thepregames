@@ -54,3 +54,11 @@
     font-weight: normal;
   }
   
+  .error {
+    background-color: #ffe2e2;
+    border: 1px solid #ff8282;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+  }
+  
