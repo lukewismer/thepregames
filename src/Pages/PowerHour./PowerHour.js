@@ -14,6 +14,7 @@ const PowerHour = () => {
   const songInterval = location.state.songInterval;
   const tornadoInterval= 60000;
   const players = location.state.namesList;
+  const tornadoDisplayTime = 20000;
 
   const images = ["https://giphy.com/embed/ebP9BKoQbsIRMKNNw8", "https://giphy.com/embed/7FgDOBGyFLgns6aiKb", "https://giphy.com/embed/1mNBTj3g4jRCg","https://giphy.com/embed/TLulTJKuyLgMU", "https://giphy.com/embed/FQ6pL4icGpKH6",
                 "https://giphy.com/embed/xAFcpblRNMyfvt1oAf", "https://giphy.com/embed/c5paNX4a8hc6A", "https://giphy.com/embed/H9Mm0ULO8AtMc", "https://giphy.com/embed/10H4by255F2UsU", "https://giphy.com/embed/l0HU4QhliQGCcelYk",
@@ -28,7 +29,7 @@ const PowerHour = () => {
   const [tornadoPerson, setTornadoPerson] = useState(players[selectRandom(players)]);
   const [tornadoTime, setTornadoTime] = useState(false);
 
-  const tornadoDisplayTime = 10000;
+  
   
   const navigate = useNavigate();
 
@@ -106,7 +107,7 @@ const PowerHour = () => {
         <div>
           {tornadoTime ? (
             <>
-            <iframe src={tornadoImage} width="478" height="480" class="giphy-embed" allowFullScreen></iframe>
+            <iframe src={tornadoImage} frameborder="0"></iframe>
               <h2>Time to Tornado: {tornadoPerson}</h2>
             </>
           ) : (

@@ -1,3 +1,34 @@
+iframe {
+  /* Set the size of the iframe */
+  width: 600px;
+  height: 600px;
+
+  /* Set the animation properties */
+  animation-name: spin-and-scale;
+  animation-duration: 7s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes spin-and-scale {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  10% {
+    transform: rotate(0deg) scale(2.5);
+  }
+  20%{
+    transform: rotate(0deg) scale(1);
+  }
+  60% {
+    transform: rotate(360deg) scale(1);
+  }
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+
 .stopwatch-container {
     display: flex;
     flex-direction: column;
