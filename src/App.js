@@ -5,7 +5,6 @@ import HomePage from './Pages/Home/Home';
 import PowerHourForm from './Pages/PowerHourForm/PowerHourForm';
 import PowerHour from './Pages/PowerHour./PowerHour';
 
-const players = ["Luke", "Quinn", "Ryder"];
 
 
 

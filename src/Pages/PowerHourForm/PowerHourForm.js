@@ -3,12 +3,13 @@ import Navbar from '../../Components/Navbar/Navbar';
 import { useNavigate } from 'react-router-dom';
 
 import './PowerHourForm.css';
+import { ListGroup } from 'react-bootstrap';
 
 const songs = [ 
     { "name": "Break Your Heart", "url": "https://www.youtube.com/watch?v=ddgcdagdbwI"},
     { "name": "Bad Romance", "url": "https://www.youtube.com/watch?v=TTOPBQhrvtQ"},
     { "name": "California Girls", "url": "https://www.youtube.com/watch?v=F57P9C4SAW4"},
-    { "name": "Lets Get It Started", "url": "https://www.youtube.com/watch?v=Q3AWa9s7cic"},
+    { "name": "Lets Get It Started", "url": "https://www.youtube.com/watch?v=Q3AWa9s7cic"}, // Music Video
     { "name": "Hey Baby", "url": "https://www.youtube.com/watch?v=LefQdEMJP1I"},
     { "name": "Party In The U.S.A", "url": "https://www.youtube.com/watch?v=4xCuAxheUNU"},
     { "name": "I Gotta Feeling", "url": "https://www.youtube.com/watch?v=CwdrtwZiQ9E"},
@@ -93,7 +94,7 @@ const songs = [
     { "name": "Love We Lost", "url": "https://www.youtube.com/watch?v=IbWMGLimSCc"},
     { "name": "No Pressure", "url": "https://www.youtube.com/watch?v=GATWVvn9VBs"},
     { "name": "The Middle", "url": "https://www.youtube.com/watch?v=4QWzYjatCCs"},
-    { "name": "Call on Me", "url": "https://www.youtube.com/watch?v=qetW6R9Jxs4"},
+    { "name": "Call on Me", "url": "https://www.youtube.com/watch?v=qetW6R9Jxs4"}, // Fix start time
     { "name": "Calabria 2008", "url": "https://www.youtube.com/watch?v=v2Gu922HqcA"},
     { "name": "Umbrella", "url": "https://www.youtube.com/watch?v=CvBfHwUxHIk"},
     { "name": "Stronger", "url": "https://www.youtube.com/watch?v=3mwiO5st-us"},
@@ -129,7 +130,7 @@ const songs = [
     { "name": "Lights", "url": "https://www.youtube.com/watch?v=0NKUpo_xKyQ"},
     { "name": "Ayy Ladies", "url": "https://www.youtube.com/watch?v=BOVc7wNGkzM"},
     { "name": "Black and Yellow", "url": "https://www.youtube.com/watch?v=7SHAKi8l7Ls"},
-    { "name": "No Money", "url": "https://www.youtube.com/watch?v=xUVz4nRmxn4"},
+    { "name": "No Money", "url": "https://www.youtube.com/watch?v=xUVz4nRmxn4"}, // Fix start time
     { "name": "Don't Tell 'Em", "url": "https://www.youtube.com/watch?v=MqyCoAgiGnI"},
     { "name": "Can't Hold Us", "url": "https://www.youtube.com/watch?v=VG3JsmOmDqw"},
     { "name": "I Cry", "url": "https://www.youtube.com/watch?v=LxwkF13vLdU"},
@@ -159,6 +160,7 @@ const songs = [
     { "name": "Hello", "url": "https://youtu.be/jNm_wrWquPs?t=26"},
   ];
 
+
 function PowerHourForm() {
   const [name, setName] = useState('');
   const [playlist, setPlaylist] = useState("prom"); 
@@ -168,7 +170,6 @@ function PowerHourForm() {
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
-
   const handleAddName = () => {
     setNamesList([...namesList, name]);
     setName('');
@@ -177,6 +178,12 @@ function PowerHourForm() {
   const handleNameChange = (event) => {
     setName(event.target.value);
   };
+
+  const handleRemoveName = (index) => {
+    const newNamesList = [...namesList];
+    newNamesList.splice(index, 1);
+    setNamesList(newNamesList);
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -199,12 +206,19 @@ function PowerHourForm() {
         <form className="form-container" onSubmit={handleSubmit}>
             <h2>Power Hour Set Up</h2>
             {errorMessage && <div className="error">{errorMessage}</div>}
+
             <label htmlFor="name">Name:</label>
-            <input type="text" value={name} onChange={handleNameChange} />
-            <button type="button" onClick={handleAddName}>Add Name</button>
+            <div className="input-group">
+              <input type="text" value={name} onChange={handleNameChange} />
+              <button type="button" onClick={handleAddName}>Add Name</button>
+            </div>
+            
             <ul>
                 {namesList.map((name, index) => (
-                <li key={index}>{name}</li>
+                  <li key={index} className="names">
+                    {name}
+                    <button type="button" className="deleteButton" onClick={() => handleRemoveName(index)}>X</button>
+                  </li>
                 ))}
             </ul>
 
@@ -227,6 +241,8 @@ function PowerHourForm() {
                 <label htmlFor="60">60 Seconds</label>
                 </div>
             </div>
+
+            <hr />
 
             <label htmlFor="tornadoInterval">Tornado Interval:</label>
             <div className="radio-container">
@@ -252,6 +268,8 @@ function PowerHourForm() {
                 </div>
             </div>
 
+            <hr />
+
             <label htmlFor="playlist">Playlist:</label>
             <div className="radio-container">
                 <div>
@@ -264,10 +282,14 @@ function PowerHourForm() {
                 </div>
             </div>
 
+            <hr />
+
             <button type="submit">Submit</button>
         </form>
     </>
   );
 }
+
+
 
 export default PowerHourForm;
