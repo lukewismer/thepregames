@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import HomePage from './Pages/Home/Home';
 import PowerHourForm from './Pages/PowerHourForm/PowerHourForm';
-import PowerHour from './Pages/PowerHour./PowerHour';
+import PowerHour from './Pages/PowerHour/PowerHour';
 
 
 
