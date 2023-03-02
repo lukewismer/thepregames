@@ -55,7 +55,7 @@ const PowerHour = () => {
         setTime({ min: 0, sec: 0, ms: 0 });
         setCurrentSongIndex(0);
         setIsRunning(false);
-      }, 10000) //3600000
+      }, 10001) //3600000
 
       // Songs
       intervalId2 = setInterval(() => {
@@ -111,9 +111,10 @@ const PowerHour = () => {
 
 
   const handleReset = () => {
+    setIsRunning(false);
     setTime({ min: 0, sec: 0, ms: 0 });
     setCurrentSongIndex(0);
-    setIsRunning(false);
+    
     
     navigate("/powerhourform");
   };
@@ -128,16 +129,23 @@ const PowerHour = () => {
         </div>
         <div>
           {isFinished ? (
+            <>
             <div className="success-message">
               <p>All done PowerHour. Time to get behind a wheel now</p>
             </div>
+            <iframe src='https://gfycat.com/ifr/HarmfulHonestDuckbillcat' frameborder='0' scrolling='no' allowfullscreen width='640' height='405'></iframe>
+            <ReactPlayer className="reactPlayer" url="https://www.youtube.com/watch?v=ym_jVTcBxSU" playing={true} />
+            </>
+            
+            
+            
 
           ) : (
             <>
             {tornadoTime ? (
               <>
                 {tornadoImage.site === "giphy" ? (
-                  <iframe src={tornadoImage.link} frameborder="0"></iframe>
+                  <iframe src={tornadoImage.link} className="tornadoImage" frameborder="0"></iframe>
                 ) : ( <>
                         <div class="tenor-gif-embed" data-postid={tornadoImage.id} data-share-method="host" data-aspect-ratio="1.1985" data-width="100%"><a href={tornadoImage.link}>Edp Edp445 GIF</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
                       </>

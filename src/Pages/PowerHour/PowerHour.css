@@ -1,4 +1,4 @@
-iframe {
+.tornadoImage {
   /* Set the size of the iframe */
   width: 600px;
   height: 600px;
@@ -92,5 +92,7 @@ iframe {
     color: #3c763d;
     padding: 10px;
     margin: 10px;
+    width: 600px;
+    height: 200px;
   }
   
