@@ -1,0 +1,67 @@
+
+    
+    .card-flipped {
+    transform: translate(-50%, -50%) rotate(-90deg);
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: all 0.5s;
+    }
+    
+    .black-btn {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-right: 10px;
+    }
+    
+    .black-btn:hover {
+    background-color: lightgray;
+    color: white;
+    cursor: pointer;
+    }
+    
+    .red-btn {
+    background-color: #D2042D;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-right: 10px;
+    }
+    
+    .red-btn:hover {
+    background-color: #F88379;
+    color: black;
+    cursor: pointer;
+    }
+    
+    .green-btn {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-right: 10px;
+    }
+    
+    .green-btn:hover {
+    background-color: lightgreen;
+    color: white;
+    cursor: pointer;
+    }
+    
+    .btn-row {
+    display: flex;
+    margin-top: 10px;
+    align-items: center;
+    justify-content: center;
+    }
