@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Card from './Card';
-import Navbar from './Navbar/Navbar';
-import './Deck.css';
+import Card from '../../Components/Card';
+import Navbar from '../../Components/Navbar/Navbar';
+import './RideTheBus.css';
 
 const SUITS = ['H', 'C', 'D', 'S'];
 const VALUES = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
@@ -29,7 +29,7 @@ const shuffleDeck = (deck) => {
   return shuffledDeck;
 };
 
-const Deck = () => {
+const RideTheBus = () => {
     const [deck, setDeck] = useState(() => shuffleDeck(generateDeck()));
     const [topCardIndex, setTopCardIndex] = useState(0);
     const [isFinished, setIsFinished] = useState(false);
@@ -81,6 +81,11 @@ const Deck = () => {
                 else{
                     
                 }
+                if (topCardIndex < deck.length) {
+                    setTopCardIndex(topCardIndex + 1);
+                } else {
+                    setIsFinished(true);
+                }
             }
             
         }
@@ -101,6 +106,11 @@ const Deck = () => {
                 }
                 else{
                 }
+                if (topCardIndex < deck.length) {
+                    setTopCardIndex(topCardIndex + 1);
+                } else {
+                    setIsFinished(true);
+                }
             }
         }
 
@@ -118,7 +128,6 @@ const Deck = () => {
                     higherCardIndex = VALUES.indexOf(row2Card[0]);
                 }
 
-                console.log("highercard: " + higherCardIndex);
 
 
                 if (row3Guess === "inside" && (higherCardIndex > VALUES.indexOf(deck[topCardIndex].value) && lowerCardIndex < VALUES.indexOf(deck[topCardIndex].value))){
@@ -126,6 +135,11 @@ const Deck = () => {
                 } else if (row3Guess === "outside" && (higherCardIndex < VALUES.indexOf(deck[topCardIndex].value) || lowerCardIndex > VALUES.indexOf(deck[topCardIndex].value))){
                     setRow3Done(true);
                 } else {
+                }
+                if (topCardIndex < deck.length) {
+                    setTopCardIndex(topCardIndex + 1);
+                } else {
+                    setIsFinished(true);
                 }
             }
         }
@@ -138,6 +152,11 @@ const Deck = () => {
                 if (row4Guess[0] === deck[topCardIndex].suit){
                     setRow4Done(true);
                 } else {
+                }
+                if (topCardIndex < deck.length) {
+                    setTopCardIndex(topCardIndex + 1);
+                } else {
+                    setIsFinished(true);
                 }
             }
         }
@@ -158,15 +177,16 @@ const Deck = () => {
                 else{
                     
                 }
+                if (topCardIndex < deck.length) {
+                    setTopCardIndex(topCardIndex + 1);
+                } else {
+                    setIsFinished(true);
+                }
 
             }
         }
 
-        if (topCardIndex < deck.length) {
-            setTopCardIndex(topCardIndex + 1);
-        } else {
-            setIsFinished(true);
-        }
+        
     };
 
 
@@ -185,7 +205,7 @@ const Deck = () => {
             <div>
             <button onClick={handleShuffle}>Shuffle Deck</button>
             <img
-                src={require('../Images/cards/back_of_card.png')}
+                src={require('../../Images/cards/back_of_card.png')}
                 style={{
                     width: '100px',
                     height: '150px',
@@ -200,6 +220,7 @@ const Deck = () => {
                 value={row1Card[0]}
                 suit={row1Card[1]}
                 faceUp={true}
+                className={"card"}
                 /> : ""}
 
                 {row2Card != null ?
@@ -207,6 +228,7 @@ const Deck = () => {
                 value={row2Card[0]}
                 suit={row2Card[1]}
                 faceUp={true}
+                className={"card"}
                 /> : ""}
 
                 {row3Card != null ?
@@ -214,6 +236,7 @@ const Deck = () => {
                 value={row3Card[0]}
                 suit={row3Card[1]}
                 faceUp={true}
+                className={"card"}
                 /> : ""}
 
                 {row4Card != null ?
@@ -221,6 +244,7 @@ const Deck = () => {
                 value={row4Card[0]}
                 suit={row4Card[1]}
                 faceUp={true}
+                className={"card"}
                 /> : ""}
 
                 {row5Card != null ?
@@ -228,6 +252,7 @@ const Deck = () => {
                 value={row5Card[0]}
                 suit={row5Card[1]}
                 faceUp={true}
+                className={"card"}
                 /> : ""}
             </div>
             <div>
@@ -267,4 +292,4 @@ const Deck = () => {
       );
 };
 
-export default Deck;
+export default RideTheBus;

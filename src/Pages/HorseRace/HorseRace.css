@@ -1,0 +1,76 @@
+.playing-game{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.top-row{
+    display: flex;
+    justify-content: center;
+}
+
+.flex-col{
+    display: flex;
+    flex-direction: column;
+}
+
+.playing-row{
+    display: flex;
+    justify-content: center;
+}
+
+.back-of-card {
+    width: 75px;
+    height: 112.5px;
+    margin-left: 3rem;
+    margin-right: 3rem;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 2px rgba(0,0,0,0.25);
+}
+
+.back-of-card-deck {
+    width: 75px;
+    height: 112.5px;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 2px rgba(0,0,0,0.25);
+}
+
+.horizontal-card{
+    transform: rotate(90deg);
+}
+
+.dummy-card{
+    width: 100px;
+    height: 150px;
+    transform: rotate(90deg);
+    margin-left: 3rem;
+    margin-right: 3rem;
+    border-radius: 5px;
+}
+
+hr{
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.finish-line{
+    flex: 1;
+    text-align: center;
+    margin-top: 20%;
+}
+
+.content-container{
+    text-align: center;
+
+}
+
+.deck-row{
+    margin-top: 40px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+

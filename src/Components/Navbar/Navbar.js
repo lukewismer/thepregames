@@ -7,6 +7,8 @@ function Navbar() {
       <ul>
         <li><a href="/">Home</a></li>
         <li><a href="/powerhourform">PowerHour</a></li>
+        <li><a href="/ridethebus">RideTheBus</a></li>
+        <li><a href="/horserace">Horse Race</a></li>
       </ul>
     </nav>
   );
