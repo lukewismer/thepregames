@@ -9,6 +9,7 @@ function Navbar() {
         <li><a href="/powerhourform">PowerHour</a></li>
         <li><a href="/ridethebus">RideTheBus</a></li>
         <li><a href="/horserace">Horse Race</a></li>
+        <li><a href="/aroundtheworld">Around The World</a></li>
       </ul>
     </nav>
   );

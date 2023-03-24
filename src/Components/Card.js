@@ -9,11 +9,15 @@ const Card = ({ value, suit, faceUp, onClick, className }) => {
     setIsFaceUp(!isFaceUp);
   }
 
+  if (!onClick){
+    onClick = handleOnClick;
+  }
+
   return (
     <img
       src={isFaceUp ? require(`../Images/cards/${value}${suit}.png`) : require('../Images/cards/back_of_card.png')}
       alt={`${value}${suit}`}
-      onClick={handleOnClick}
+      onClick={onClick}
       className={className}
     />
   );

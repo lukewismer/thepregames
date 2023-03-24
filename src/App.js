@@ -6,6 +6,7 @@ import PowerHourForm from './Pages/PowerHourForm/PowerHourForm';
 import PowerHour from './Pages/PowerHour/PowerHour';
 import RideTheBus from './Pages/RideTheBus/RideTheBus';
 import HorseRace from './Pages/HorseRace/HorseRace';
+import AroundTheWorld from './Pages/AroundTheWorld/AroundTheWorld';
 
 
 
@@ -22,6 +23,7 @@ const App = () => {
           <Route path="powerhour" element={<PowerHour />} />
           <Route path="ridethebus" element={<RideTheBus />} />
           <Route path="horserace" element={<HorseRace />} />
+          <Route path="aroundtheworld" element={<AroundTheWorld />} />
         </Route>
       </Routes>
     </BrowserRouter>
