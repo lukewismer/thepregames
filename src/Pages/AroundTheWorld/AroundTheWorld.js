@@ -69,7 +69,7 @@ const AroundTheWorld = () => {
     }
   }
 
-  const checkGuess = (card, index) => {
+  const checkGuess = (newCard, index) => {
     if (guess) {
       if (index === 19){
         if (guess === "higher"){
@@ -191,7 +191,8 @@ const AroundTheWorld = () => {
         incrementIndex();
         removeCard(1);
       }
-
+      setBtnClicked(2);
+      setGuess(null);
       setCard2Clicked(false);
       
 
@@ -207,6 +208,8 @@ const AroundTheWorld = () => {
         incrementIndex();
         removeCard(2);
       }
+      setBtnClicked(2);
+      setGuess(null);
       setCard3Clicked(false);
 
     } else if (card4Clicked){
@@ -221,6 +224,8 @@ const AroundTheWorld = () => {
         incrementIndex();
         removeCard(3);
       }
+      setBtnClicked(2);
+      setGuess(null);
       setCard4Clicked(false);
 
     } else if (card5Clicked){
@@ -235,6 +240,8 @@ const AroundTheWorld = () => {
         incrementIndex();
         removeCard(4);
       }
+      setBtnClicked(2);
+      setGuess(null);
       setCard5Clicked(false);
 
     } else if (card7Clicked){
@@ -249,6 +256,8 @@ const AroundTheWorld = () => {
         incrementIndex();
         removeCard(6);
       }
+      setBtnClicked(2);
+      setGuess(null);
       setCard7Clicked(false);
 
     } else if (card8Clicked){
@@ -263,6 +272,8 @@ const AroundTheWorld = () => {
         incrementIndex();
         removeCard(7);
       }
+      setBtnClicked(2);
+      setGuess(null);
       setCard8Clicked(false);
 
     } else if (card9Clicked){
@@ -277,6 +288,8 @@ const AroundTheWorld = () => {
         incrementIndex();
         removeCard(8);
       }
+      setBtnClicked(2);
+      setGuess(null);
       setCard9Clicked(false);
 
     } else if (card10Clicked){
@@ -291,6 +304,8 @@ const AroundTheWorld = () => {
         incrementIndex();
         removeCard(9);
       }
+      setBtnClicked(2);
+      setGuess(null);
       setCard10Clicked(false);
 
     } else if (card12Clicked){
@@ -305,6 +320,8 @@ const AroundTheWorld = () => {
         incrementIndex();
         removeCard(11);
       }
+      setBtnClicked(2);
+      setGuess(null);
       setCard12Clicked(false);
 
     } else if (card13Clicked){
@@ -319,6 +336,8 @@ const AroundTheWorld = () => {
         incrementIndex();
         removeCard(12);
       }
+      setBtnClicked(2);
+      setGuess(null);
       setCard13Clicked(false);
 
     } else if (card14Clicked){
@@ -333,6 +352,8 @@ const AroundTheWorld = () => {
         incrementIndex();
         removeCard(13);
       }
+      setBtnClicked(2);
+      setGuess(null);
       setCard14Clicked(false);
 
     } else if (card15Clicked){
@@ -347,6 +368,8 @@ const AroundTheWorld = () => {
         incrementIndex();
         removeCard(14);
       }
+      setBtnClicked(2);
+      setGuess(null);
       setCard15Clicked(false);
 
     } else if (card17Clicked){
@@ -361,6 +384,8 @@ const AroundTheWorld = () => {
         incrementIndex();
         removeCard(16);
       }
+      setBtnClicked(2);
+      setGuess(null);
       setCard17Clicked(false);
 
     } else if (card18Clicked){
@@ -375,6 +400,8 @@ const AroundTheWorld = () => {
         incrementIndex();
         removeCard(17);
       }
+      setBtnClicked(2);
+      setGuess(null);
       setCard18Clicked(false);
 
     } else if (card19Clicked){
@@ -389,6 +416,8 @@ const AroundTheWorld = () => {
         incrementIndex();
         removeCard(18);
       }
+      setBtnClicked(2);
+      setGuess(null);
       setCard19Clicked(false);
 
     } else if (card20Clicked){
@@ -403,13 +432,15 @@ const AroundTheWorld = () => {
         incrementIndex();
         removeCard(19);
       }
+      setBtnClicked(2);
+      setGuess(null);
       setCard20Clicked(false);
     }
-    
   }, [card2Clicked, card3Clicked, card4Clicked, card5Clicked, card7Clicked, card8Clicked, card9Clicked, card10Clicked, card12Clicked, card13Clicked, card14Clicked, card15Clicked, card17Clicked, card18Clicked, card19Clicked, card20Clicked]);
 
   const onCard2Flip = () =>{
     setCard2Clicked(true);
+    
   }
 
   const onCard3Flip = () =>{
