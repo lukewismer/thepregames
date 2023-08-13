@@ -6,6 +6,9 @@ import Card from '../../Components/Card';
 const SUITS = ['H', 'C', 'D', 'S'];
 const VALUES = ['A', '2', '3', '4', '5', '6', '8', '9', '10', 'J', 'Q', 'K'];
 
+const colored_globe = require("./Assets/globe_colored_spinning.png");
+const grid_globe = require("./Assets/grid_globe_black.webp");
+
 // TODO: Fix Ties (not sure if it works for higher/lower but it doesn't for inside/outside)
 // TODO: Don't reveal card if there is no guess made, alert the user on error and continue
 
@@ -1085,11 +1088,14 @@ const AroundTheWorld = () => {
 
     
   return (
-    <>
+    <div className="wrapper-bg">
     <Navbar />
         <div className='container'>
-        
-        <h1 >Around The World</h1>
+        <div className='title-container'>
+          <img src={colored_globe} className="colored-globe"></img>
+          <h1 className='around-the-world-title'>Around The World</h1>
+          <img src={colored_globe} className="colored-globe reverse-img"></img>
+        </div>
         <div className={"btn-container"}>
           <button className={btnClicked === 0 ? 'guess-btn-active' : 'guess-btn'} onClick={handleBtnClickHigher}>Higher</button>
           
@@ -1130,7 +1136,7 @@ const AroundTheWorld = () => {
             { cards[19] ? <Card value={cards[19][0]} suit={cards[19][1]} faceUp={true} onClick={emptyFunction} className="back-of-card group20" />: <img src={image} className="back-of-card group20" onClick={(onCard20Flip)}></img>}
         </div>
     </div>
-    </>
+    </div>
   );
 };
 
