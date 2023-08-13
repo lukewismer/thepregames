@@ -195,211 +195,213 @@ const HorseRace = () => {
     return (
         <div className="content-container">
             <Navbar />
-            <h1>Horse Race</h1>
-            {isFinished ? <Modal header={`${winner} have won!`} message={"Time to hand out your bets"} buttonText={"Restart"} onButtonClick={refreshPage}></Modal> : ''}
-            <div className="deck-row">
-                <img src={require('../../Images/cards/back_of_card.png')} className="back-of-card-deck" onClick={handleDeckClick} />
-                {flippedCard != null ?  <Card className={"back-of-card"} value={flippedCard[0]} suit={flippedCard[1]} faceUp={true} /> : 
-                <img src={require('../../Images/cards/blank_card.png')} className="back-of-card" ></img> }
-            </div>
-            <h3>Flip a card</h3>
-            <div className="playing-game">
-                <div className="flex-col">
-                    <div style={{flex: 1}}></div>
-                    { heartsIndex === 0 ? 
-                        <img src={require('../../Images/cards/AH.png')} className="back-of-card horizontal-card"></img> :
-                        <img src={require('../../Images/cards/blank_card.png')} className="back-of-card horizontal-card"></img> }
-
-                    { diamondsIndex === 0 ? 
-                        <img src={require('../../Images/cards/AD.png')} className="back-of-card horizontal-card"></img> :
-                        <img src={require('../../Images/cards/blank_card.png')} className="back-of-card horizontal-card"></img> }
-
-                    { spadesIndex === 0 ? 
-                        <img src={require('../../Images/cards/AS.png')} className="back-of-card horizontal-card"></img> :
-                        <img src={require('../../Images/cards/blank_card.png')} className="back-of-card horizontal-card"></img> }
-
-                    { clubsIndex === 0 ? 
-                        <img src={require('../../Images/cards/AC.png')} className="back-of-card horizontal-card"></img> :
-                        <img src={require('../../Images/cards/blank_card.png')} className="back-of-card horizontal-card"></img> }
-                    
-                    
-                    
+            <div className="horse-race">
+                <h1>Horse Race</h1>
+                {isFinished ? <Modal header={`${winner} have won!`} message={"Time to hand out your bets"} buttonText={"Restart"} onButtonClick={refreshPage}></Modal> : ''}
+                <div className="deck-row">
+                    <img src={require('../../Images/cards/back_of_card.png')} className="back-of-card-deck" onClick={handleDeckClick} />
+                    {flippedCard != null ?  <Card className={"back-of-card"} value={flippedCard[0]} suit={flippedCard[1]} faceUp={true} /> : 
+                    <img src={require('../../Images/cards/blank_card.png')} className="back-of-card" ></img> }
                 </div>
-                <div className="flex-col">
-                    { topRow1Reveal === false ? 
-                        <img src={require('../../Images/cards/back_of_card.png')} className="back-of-card horizontal-card" ></img> : 
-                        <Card suit={topRow1[0]} value={topRow1[1]} faceUp={true} className={"back-of-card horizontal-card"} />}
+                <h3>Flip a card</h3>
+                <div className="playing-game">
+                    <div className="flex-col">
+                        <div style={{flex: 1}}></div>
+                        { heartsIndex === 0 ? 
+                            <img src={require('../../Images/cards/AH.png')} className="back-of-card horizontal-card"></img> :
+                            <img src={require('../../Images/cards/blank_card.png')} className="back-of-card horizontal-card"></img> }
+
+                        { diamondsIndex === 0 ? 
+                            <img src={require('../../Images/cards/AD.png')} className="back-of-card horizontal-card"></img> :
+                            <img src={require('../../Images/cards/blank_card.png')} className="back-of-card horizontal-card"></img> }
+
+                        { spadesIndex === 0 ? 
+                            <img src={require('../../Images/cards/AS.png')} className="back-of-card horizontal-card"></img> :
+                            <img src={require('../../Images/cards/blank_card.png')} className="back-of-card horizontal-card"></img> }
+
+                        { clubsIndex === 0 ? 
+                            <img src={require('../../Images/cards/AC.png')} className="back-of-card horizontal-card"></img> :
+                            <img src={require('../../Images/cards/blank_card.png')} className="back-of-card horizontal-card"></img> }
                         
+                        
+                        
+                    </div>
+                    <div className="flex-col">
+                        { topRow1Reveal === false ? 
+                            <img src={require('../../Images/cards/back_of_card.png')} className="back-of-card horizontal-card" ></img> : 
+                            <Card suit={topRow1[0]} value={topRow1[1]} faceUp={true} className={"back-of-card horizontal-card"} />}
+                            
+                        
+                        { heartsIndex === 1 ? 
+                            <img src={require('../../Images/cards/AH.png')} className="back-of-card horizontal-card"></img> :
+                            <div style={{flex: 1}}></div> }
+
+                        { diamondsIndex === 1 ? 
+                            <img src={require('../../Images/cards/AD.png')} className="back-of-card horizontal-card"></img> :
+                            <div style={{flex: 1}}></div> }
+
+                        { spadesIndex === 1 ? 
+                            <img src={require('../../Images/cards/AS.png')} className="back-of-card horizontal-card"></img> :
+                            <div style={{flex: 1}}></div> }
+
+                        { clubsIndex === 1 ? 
+                            <img src={require('../../Images/cards/AC.png')} className="back-of-card horizontal-card"></img> :
+                            <div style={{flex: 1}}></div> }
+                    </div>
+
+                    <div className="flex-col">
+                        { topRow2Reveal === false ? 
+                            <img src={require('../../Images/cards/back_of_card.png')} className="back-of-card horizontal-card" ></img> : 
+                            <Card suit={topRow2[0]} value={topRow2[1]} faceUp={true} className={"back-of-card horizontal-card"} />}
+
+                        { heartsIndex === 2 ? 
+                            <img src={require('../../Images/cards/AH.png')} className="back-of-card horizontal-card"></img> :
+                            <div style={{flex: 1}}></div> }
+
+                        { diamondsIndex === 2 ? 
+                            <img src={require('../../Images/cards/AD.png')} className="back-of-card horizontal-card"></img> :
+                            <div style={{flex: 1}}></div> }
+
+                        { spadesIndex === 2 ? 
+                            <img src={require('../../Images/cards/AS.png')} className="back-of-card horizontal-card"></img> :
+                            <div style={{flex: 1}}></div> }
+
+                        { clubsIndex === 2 ? 
+                            <img src={require('../../Images/cards/AC.png')} className="back-of-card horizontal-card"></img> :
+                            <div style={{flex: 1}}></div> }
+                    </div>
+
+                    <div className="flex-col">
+                        { topRow3Reveal === false ? 
+                            <img src={require('../../Images/cards/back_of_card.png')} className="back-of-card horizontal-card" ></img> : 
+                            <Card suit={topRow3[0]} value={topRow3[1]} faceUp={true} className={"back-of-card horizontal-card"} />}
+
+                        { heartsIndex === 3 ? 
+                            <img src={require('../../Images/cards/AH.png')} className="back-of-card horizontal-card"></img> :
+                            <div style={{flex: 1}}></div> }
+
+                        { diamondsIndex === 3 ? 
+                            <img src={require('../../Images/cards/AD.png')} className="back-of-card horizontal-card"></img> :
+                            <div style={{flex: 1}}></div> }
+
+                        { spadesIndex === 3 ? 
+                            <img src={require('../../Images/cards/AS.png')} className="back-of-card horizontal-card"></img> :
+                            <div style={{flex: 1}}></div> }
+
+                        { clubsIndex === 3 ? 
+                            <img src={require('../../Images/cards/AC.png')} className="back-of-card horizontal-card"></img> :
+                            <div style={{flex: 1}}></div> }
+                    </div>
+                    <div className="flex-col">
+                        { topRow4Reveal === false ? 
+                            <img src={require('../../Images/cards/back_of_card.png')} className="back-of-card horizontal-card" ></img> : 
+                            <Card suit={topRow4[0]} value={topRow4[1]} faceUp={true} className={"back-of-card horizontal-card"} />}
+
+                        { heartsIndex === 4 ? 
+                            <img src={require('../../Images/cards/AH.png')} className="back-of-card horizontal-card"></img> :
+                            <div style={{flex: 1}}></div> }
+
+                        { diamondsIndex === 4 ? 
+                            <img src={require('../../Images/cards/AD.png')} className="back-of-card horizontal-card"></img> :
+                            <div style={{flex: 1}}></div> }
+
+                        { spadesIndex === 4 ? 
+                            <img src={require('../../Images/cards/AS.png')} className="back-of-card horizontal-card"></img> :
+                            <div style={{flex: 1}}></div> }
+
+                        { clubsIndex === 4 ? 
+                            <img src={require('../../Images/cards/AC.png')} className="back-of-card horizontal-card"></img> :
+                            <div style={{flex: 1}}></div> }
+                    </div>
+
+                    <div className="flex-col">
+                        { topRow5Reveal === false ? 
+                            <img src={require('../../Images/cards/back_of_card.png')} className="back-of-card horizontal-card" ></img> : 
+                            <Card suit={topRow5[0]} value={topRow5[1]} faceUp={true} className={"back-of-card horizontal-card"} />}
+
+                        { heartsIndex === 5 ? 
+                            <img src={require('../../Images/cards/AH.png')} className="back-of-card horizontal-card"></img> :
+                            <div style={{flex: 1}}></div> }
+
+                        { diamondsIndex === 5 ? 
+                            <img src={require('../../Images/cards/AD.png')} className="back-of-card horizontal-card"></img> :
+                            <div style={{flex: 1}}></div> }
+
+                        { spadesIndex === 5 ? 
+                            <img src={require('../../Images/cards/AS.png')} className="back-of-card horizontal-card"></img> :
+                            <div style={{flex: 1}}></div> }
+
+                        { clubsIndex === 5 ? 
+                            <img src={require('../../Images/cards/AC.png')} className="back-of-card horizontal-card"></img> :
+                            <div style={{flex: 1}}></div> }
+                    </div>
+
+                    <div className="flex-col">
+                        { topRow6Reveal === false ? 
+                            <img src={require('../../Images/cards/back_of_card.png')} className="back-of-card horizontal-card" ></img> : 
+                            <Card suit={topRow6[0]} value={topRow6[1]} faceUp={true} className={"back-of-card horizontal-card"} />}
+
+                        { heartsIndex === 6 ? 
+                            <img src={require('../../Images/cards/AH.png')} className="back-of-card horizontal-card"></img> :
+                            <div style={{flex: 1}}></div> }
+
+                        { diamondsIndex === 6 ? 
+                            <img src={require('../../Images/cards/AD.png')} className="back-of-card horizontal-card"></img> :
+                            <div style={{flex: 1}}></div> }
+
+                        { spadesIndex === 6 ? 
+                            <img src={require('../../Images/cards/AS.png')} className="back-of-card horizontal-card"></img> :
+                            <div style={{flex: 1}}></div> }
+
+                        { clubsIndex === 6 ? 
+                            <img src={require('../../Images/cards/AC.png')} className="back-of-card horizontal-card"></img> :
+                            <div style={{flex: 1}}></div> }
+                    </div>
+
+                    <div className="flex-col">
+                        { topRow7Reveal === false ? 
+                            <img src={require('../../Images/cards/back_of_card.png')} className="back-of-card horizontal-card" ></img> : 
+                            <Card suit={topRow7[0]} value={topRow7[1]} faceUp={true} className={"back-of-card horizontal-card"} />}
+
+                        { heartsIndex === 7 ? 
+                            <img src={require('../../Images/cards/AH.png')} className="back-of-card horizontal-card"></img> :
+                            <div style={{flex: 1}}></div> }
+
+                        { diamondsIndex === 7 ? 
+                            <img src={require('../../Images/cards/AD.png')} className="back-of-card horizontal-card"></img> :
+                            <div style={{flex: 1}}></div> }
+
+                        { spadesIndex === 7 ? 
+                            <img src={require('../../Images/cards/AS.png')} className="back-of-card horizontal-card"></img> :
+                            <div style={{flex: 1}}></div> }
+
+                        { clubsIndex === 7 ? 
+                            <img src={require('../../Images/cards/AC.png')} className="back-of-card horizontal-card"></img> :
+                            <div style={{flex: 1}}></div> }
+                    </div>
+                    <hr></hr>
+
+                    <div className="flex-col">
+                        <div className="finish-line"> <h2>Finish line</h2></div>
+                        { heartsIndex === 8 ? 
+                            <img src={require('../../Images/cards/AH.png')} className="back-of-card horizontal-card"></img> :
+                            <img src={require('../../Images/cards/blank_card.png')} className="back-of-card horizontal-card"></img> }
+
+                        { diamondsIndex === 8 ? 
+                            <img src={require('../../Images/cards/AD.png')} className="back-of-card horizontal-card"></img> :
+                            <img src={require('../../Images/cards/blank_card.png')} className="back-of-card horizontal-card"></img> }
+
+                        { spadesIndex === 8 ? 
+                            <img src={require('../../Images/cards/AS.png')} className="back-of-card horizontal-card"></img> :
+                            <img src={require('../../Images/cards/blank_card.png')} className="back-of-card horizontal-card"></img> }
+
+                        { clubsIndex === 8 ? 
+                            <img src={require('../../Images/cards/AC.png')} className="back-of-card horizontal-card"></img> :
+                            <img src={require('../../Images/cards/blank_card.png')} className="back-of-card horizontal-card"></img> }
+                        
+                    </div>
                     
-                    { heartsIndex === 1 ? 
-                        <img src={require('../../Images/cards/AH.png')} className="back-of-card horizontal-card"></img> :
-                        <div style={{flex: 1}}></div> }
-
-                    { diamondsIndex === 1 ? 
-                        <img src={require('../../Images/cards/AD.png')} className="back-of-card horizontal-card"></img> :
-                        <div style={{flex: 1}}></div> }
-
-                    { spadesIndex === 1 ? 
-                        <img src={require('../../Images/cards/AS.png')} className="back-of-card horizontal-card"></img> :
-                        <div style={{flex: 1}}></div> }
-
-                    { clubsIndex === 1 ? 
-                        <img src={require('../../Images/cards/AC.png')} className="back-of-card horizontal-card"></img> :
-                        <div style={{flex: 1}}></div> }
                 </div>
-
-                <div className="flex-col">
-                    { topRow2Reveal === false ? 
-                        <img src={require('../../Images/cards/back_of_card.png')} className="back-of-card horizontal-card" ></img> : 
-                        <Card suit={topRow2[0]} value={topRow2[1]} faceUp={true} className={"back-of-card horizontal-card"} />}
-
-                    { heartsIndex === 2 ? 
-                        <img src={require('../../Images/cards/AH.png')} className="back-of-card horizontal-card"></img> :
-                        <div style={{flex: 1}}></div> }
-
-                    { diamondsIndex === 2 ? 
-                        <img src={require('../../Images/cards/AD.png')} className="back-of-card horizontal-card"></img> :
-                        <div style={{flex: 1}}></div> }
-
-                    { spadesIndex === 2 ? 
-                        <img src={require('../../Images/cards/AS.png')} className="back-of-card horizontal-card"></img> :
-                        <div style={{flex: 1}}></div> }
-
-                    { clubsIndex === 2 ? 
-                        <img src={require('../../Images/cards/AC.png')} className="back-of-card horizontal-card"></img> :
-                        <div style={{flex: 1}}></div> }
-                </div>
-
-                <div className="flex-col">
-                    { topRow3Reveal === false ? 
-                        <img src={require('../../Images/cards/back_of_card.png')} className="back-of-card horizontal-card" ></img> : 
-                        <Card suit={topRow3[0]} value={topRow3[1]} faceUp={true} className={"back-of-card horizontal-card"} />}
-
-                    { heartsIndex === 3 ? 
-                        <img src={require('../../Images/cards/AH.png')} className="back-of-card horizontal-card"></img> :
-                        <div style={{flex: 1}}></div> }
-
-                    { diamondsIndex === 3 ? 
-                        <img src={require('../../Images/cards/AD.png')} className="back-of-card horizontal-card"></img> :
-                        <div style={{flex: 1}}></div> }
-
-                    { spadesIndex === 3 ? 
-                        <img src={require('../../Images/cards/AS.png')} className="back-of-card horizontal-card"></img> :
-                        <div style={{flex: 1}}></div> }
-
-                    { clubsIndex === 3 ? 
-                        <img src={require('../../Images/cards/AC.png')} className="back-of-card horizontal-card"></img> :
-                        <div style={{flex: 1}}></div> }
-                </div>
-                <div className="flex-col">
-                    { topRow4Reveal === false ? 
-                        <img src={require('../../Images/cards/back_of_card.png')} className="back-of-card horizontal-card" ></img> : 
-                        <Card suit={topRow4[0]} value={topRow4[1]} faceUp={true} className={"back-of-card horizontal-card"} />}
-
-                    { heartsIndex === 4 ? 
-                        <img src={require('../../Images/cards/AH.png')} className="back-of-card horizontal-card"></img> :
-                        <div style={{flex: 1}}></div> }
-
-                    { diamondsIndex === 4 ? 
-                        <img src={require('../../Images/cards/AD.png')} className="back-of-card horizontal-card"></img> :
-                        <div style={{flex: 1}}></div> }
-
-                    { spadesIndex === 4 ? 
-                        <img src={require('../../Images/cards/AS.png')} className="back-of-card horizontal-card"></img> :
-                        <div style={{flex: 1}}></div> }
-
-                    { clubsIndex === 4 ? 
-                        <img src={require('../../Images/cards/AC.png')} className="back-of-card horizontal-card"></img> :
-                        <div style={{flex: 1}}></div> }
-                </div>
-
-                <div className="flex-col">
-                    { topRow5Reveal === false ? 
-                        <img src={require('../../Images/cards/back_of_card.png')} className="back-of-card horizontal-card" ></img> : 
-                        <Card suit={topRow5[0]} value={topRow5[1]} faceUp={true} className={"back-of-card horizontal-card"} />}
-
-                    { heartsIndex === 5 ? 
-                        <img src={require('../../Images/cards/AH.png')} className="back-of-card horizontal-card"></img> :
-                        <div style={{flex: 1}}></div> }
-
-                    { diamondsIndex === 5 ? 
-                        <img src={require('../../Images/cards/AD.png')} className="back-of-card horizontal-card"></img> :
-                        <div style={{flex: 1}}></div> }
-
-                    { spadesIndex === 5 ? 
-                        <img src={require('../../Images/cards/AS.png')} className="back-of-card horizontal-card"></img> :
-                        <div style={{flex: 1}}></div> }
-
-                    { clubsIndex === 5 ? 
-                        <img src={require('../../Images/cards/AC.png')} className="back-of-card horizontal-card"></img> :
-                        <div style={{flex: 1}}></div> }
-                </div>
-
-                <div className="flex-col">
-                    { topRow6Reveal === false ? 
-                        <img src={require('../../Images/cards/back_of_card.png')} className="back-of-card horizontal-card" ></img> : 
-                        <Card suit={topRow6[0]} value={topRow6[1]} faceUp={true} className={"back-of-card horizontal-card"} />}
-
-                    { heartsIndex === 6 ? 
-                        <img src={require('../../Images/cards/AH.png')} className="back-of-card horizontal-card"></img> :
-                        <div style={{flex: 1}}></div> }
-
-                    { diamondsIndex === 6 ? 
-                        <img src={require('../../Images/cards/AD.png')} className="back-of-card horizontal-card"></img> :
-                        <div style={{flex: 1}}></div> }
-
-                    { spadesIndex === 6 ? 
-                        <img src={require('../../Images/cards/AS.png')} className="back-of-card horizontal-card"></img> :
-                        <div style={{flex: 1}}></div> }
-
-                    { clubsIndex === 6 ? 
-                        <img src={require('../../Images/cards/AC.png')} className="back-of-card horizontal-card"></img> :
-                        <div style={{flex: 1}}></div> }
-                </div>
-
-                <div className="flex-col">
-                    { topRow7Reveal === false ? 
-                        <img src={require('../../Images/cards/back_of_card.png')} className="back-of-card horizontal-card" ></img> : 
-                        <Card suit={topRow7[0]} value={topRow7[1]} faceUp={true} className={"back-of-card horizontal-card"} />}
-
-                    { heartsIndex === 7 ? 
-                        <img src={require('../../Images/cards/AH.png')} className="back-of-card horizontal-card"></img> :
-                        <div style={{flex: 1}}></div> }
-
-                    { diamondsIndex === 7 ? 
-                        <img src={require('../../Images/cards/AD.png')} className="back-of-card horizontal-card"></img> :
-                        <div style={{flex: 1}}></div> }
-
-                    { spadesIndex === 7 ? 
-                        <img src={require('../../Images/cards/AS.png')} className="back-of-card horizontal-card"></img> :
-                        <div style={{flex: 1}}></div> }
-
-                    { clubsIndex === 7 ? 
-                        <img src={require('../../Images/cards/AC.png')} className="back-of-card horizontal-card"></img> :
-                        <div style={{flex: 1}}></div> }
-                </div>
-                <hr></hr>
-
-                <div className="flex-col">
-                    <div className="finish-line"> <h2>Finish line</h2></div>
-                    { heartsIndex === 8 ? 
-                        <img src={require('../../Images/cards/AH.png')} className="back-of-card horizontal-card"></img> :
-                        <img src={require('../../Images/cards/blank_card.png')} className="back-of-card horizontal-card"></img> }
-
-                    { diamondsIndex === 8 ? 
-                        <img src={require('../../Images/cards/AD.png')} className="back-of-card horizontal-card"></img> :
-                        <img src={require('../../Images/cards/blank_card.png')} className="back-of-card horizontal-card"></img> }
-
-                    { spadesIndex === 8 ? 
-                        <img src={require('../../Images/cards/AS.png')} className="back-of-card horizontal-card"></img> :
-                        <img src={require('../../Images/cards/blank_card.png')} className="back-of-card horizontal-card"></img> }
-
-                    { clubsIndex === 8 ? 
-                        <img src={require('../../Images/cards/AC.png')} className="back-of-card horizontal-card"></img> :
-                        <img src={require('../../Images/cards/blank_card.png')} className="back-of-card horizontal-card"></img> }
-                    
-                </div>
-                
             </div>
         </div>
     )
