@@ -126,6 +126,7 @@ const PowerHour = () => {
       
       <div className="stopwatch-container">
         <h1>Power Hour</h1>
+        <h3 className='ph-subheadeer'>Tornado Edition</h3>
         <div className="time-container">
         <div className="time-display">
           {time.min.toString().padStart(2, "0")}:{time.sec.toString().padStart(2, "0")}

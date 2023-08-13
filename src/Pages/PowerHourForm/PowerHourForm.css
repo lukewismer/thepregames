@@ -2,16 +2,17 @@
   max-width: 800px;
   margin: 30px auto;
   padding: 30px;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  background-color: #f9f9f9; /* lighter background */
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* more depth */
   border-radius: 5px;
   text-align: center;
 }
 
 .form-container h2 {
   margin-top: 0;
-  font-size: 2em;
+  font-size: 2.2em; /* slightly larger heading */
   text-align: center;
+  color: #333; /* darker color for better readability */
 }
 
 .form-container label {
@@ -69,15 +70,36 @@
 }
 
 .form-container ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  margin-bottom: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  align-items: center;
+  gap: 10px; /* to add some space between names */
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.quickstart-btn {
+  background-color: green;
+  color: #fff;
+  font-size: 1.2em;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline;
+}
+
+.quickstart-btn:hover {
+  background-color: darkgreen;
 }
 
 .form-container li {
-  margin-bottom: 5px;
+  flex: 1 0 20%; /* grow, shrink, basis: this means items will take up at least 20% of the row width */
+  text-align: center; /* if you want the names to be centered within their space */
 }
+
 
 .input-group {
   display: flex;
@@ -88,7 +110,36 @@
 }
 
 .input-group button {
-  flex: 0;
+  margin-left: 10px; /* some space between the input field and the buttons */
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 1em;
+  color: #fff;
+  background-color: #4285F4; /* consistent color scheme */
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.input-group button:hover {
+  background-color: #3C78D8; /* slightly darker shade on hover */
+}
+
+.input-group button:active {
+  background-color: #357ae8; /* even darker shade for active state */
+}
+
+.input-group button:focus {
+  outline: none; /* remove default focus outline */
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.form-container li {
+  animation: fade-in 0.3s ease;
 }
 
 .names {
