@@ -1,0 +1,259 @@
+
+.card-flipped {
+transform: translate(-50%, -50%) rotate(-90deg);
+position: absolute;
+top: 0;
+left: 0;
+transition: all 0.5s;
+animation-name: flip-card;
+animation-duration: 1s;
+}
+
+@keyframes flip-card {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(-90deg); }
+}
+
+.black-btn {
+    background-color: black;
+    opacity: 50%;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.black-btn-dark {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.black-btn-dark:hover {
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+
+.black-btn:hover {
+    background-color: lightgray;
+    opacity: 50%;
+    color: white;
+    cursor: pointer;
+}
+
+.red-btn {
+    background-color: #D2042D;
+    opacity: 50%;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.red-btn:hover {
+    background-color: #F88379;
+    opacity: 50%;
+    color: black;
+    cursor: pointer;
+}
+
+.red-btn-dark {
+    background-color: #D2042D;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.red-btn-dark:hover{
+    background-color: #D2042D;
+    color: white;
+    cursor: pointer;
+}
+
+.green-btn {
+    background-color: green;
+    opacity: 50%;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.green-btn-dark {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-right: 10px;
+    }
+
+.green-btn:hover {
+    background-color: lightgreen;
+    opacity: 50%;
+    color: white;
+    cursor: pointer;
+}
+
+.green-btn-dark:hover{
+    background-color: green;
+    color: white;
+    cursor: pointer;
+}
+
+.btn-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.btn-row > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+}
+
+.btn-row h2 {
+    margin: 0;
+}
+
+.btn-row button {
+    padding: 15px 25px;
+    font-size: 1.2rem;
+    margin: 0 5px;
+}
+
+.card{
+    width: 100px;
+    height: 150px;
+    margin: 5px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 2px rgba(0,0,0,0.25);
+}
+
+.card-deck {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+h1.title {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+h2.sub-header {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.shuffle-btn {
+    padding: 15px 25px;
+    font-size: 1.2rem;
+    margin: 1rem auto;
+    display: block;
+}
+
+.flipped-cards {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.ride-the-bus {
+    background: linear-gradient(to bottom, #00c6ff, #ffffff);
+    height: 100vh;
+    width: 100%;
+}
+
+.card.done {
+    border: 2px solid lime;
+    box-shadow: 0px 0px 10px 3px lime;
+}
+
+.card.wrong {
+    border: 2px solid red;
+    box-shadow: 0px 0px 10px 3px red;
+}
+
+.winner-message {
+    position: fixed;
+    top: 0;
+    left: -10;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.winner-message.show {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.winner-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.winner-card h2 {
+    margin-top: 0;
+}
+
+.winner-card p {
+    margin-bottom: 0;
+}
+
+.winner-card button {
+    background-color: lightgreen;
+    padding: 5px;
+    margin-top: 1rem;
+}
+
+.winner-card button:hover {
+    background-color: green;
+    padding: 5px;
+    margin-top: 1rem;
+}

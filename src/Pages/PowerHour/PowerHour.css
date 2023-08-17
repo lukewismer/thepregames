@@ -5,15 +5,23 @@
 
   /* Set the animation properties */
   animation-name: spin-and-scale;
-  animation-duration: 7s;
+  animation-duration: 10s;
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
 }
 
 .background {
-  background: linear-gradient(to bottom, #0099cc, #ffffff);
+  background: linear-gradient(to bottom, #e0f7fa, #ffffff);
   height: 100vh;
 }
+
+.ph-subheader {
+  font-size: 1.2rem;
+  color: #666; /* a lighter color to differentiate it from the main header */
+  margin: 0; /* to remove the default margin */
+  margin-bottom: .5rem;
+}
+
 
 @keyframes spin-and-scale {
   0% {
@@ -47,6 +55,9 @@
     padding: 2rem;
     border-radius: 10px;
     height: 100vh;
+    color: #333; /* darker text */
+    font-family: 'Roboto', sans-serif; /* custom font */
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
   }
   
   .time-display {
@@ -63,8 +74,8 @@
     background-color: #fff;
     padding: 1rem;
     border-radius: 5px;
-    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.25);
     margin-bottom: 2rem;
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.15);
   }
   
   .track-display {
@@ -75,8 +86,8 @@
   }
   
   .header {
-    font-size: 1.5rem;
-    margin-top: 1rem;
+    font-size: 2rem; /* larger font size */
+    font-weight: 700; /* bold */
   }
   
   .reactPlayer {
@@ -99,10 +110,16 @@
     color: #fff;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.15); /* add a subtle shadow */
+    font-weight: bold; /* make the text bold */
   }
   
   button:hover {
     background-color: #0062cc;
+  }
+  
+  button:active {
+    transform: scale(0.98); /* shrink the button slightly when clicked */
   }
   
   .success-message {
@@ -116,5 +133,6 @@
     margin: 10px;
     width: 600px;
     height: 200px;
+    animation: fade-in 0.3s ease;
   }
   

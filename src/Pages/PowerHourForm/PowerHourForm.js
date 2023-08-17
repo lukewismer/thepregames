@@ -3,7 +3,6 @@ import Navbar from '../../Components/Navbar/Navbar';
 import { useNavigate } from 'react-router-dom';
 
 import './PowerHourForm.css';
-import { ListGroup } from 'react-bootstrap';
 
 const songs = [ 
     { "name": "Break Your Heart", "url": "https://www.youtube.com/watch?v=ddgcdagdbwI"},
@@ -200,6 +199,15 @@ function PowerHourForm() {
     navigate("/powerhour", { state: {songInterval, playlistSongs, tornadoInterval, namesList}})
   }
 
+  const handleQuickstartSubmit = (event) => {
+    event.preventDefault();
+    
+    let playlistSongs = songs;
+
+    navigate("/quickstart-powerhour", { state: {playlistSongs}})
+  };
+  
+
   return (
     <>
         <Navbar />
@@ -283,8 +291,8 @@ function PowerHourForm() {
             </div>
 
             <hr />
-
-            <button type="submit">Submit</button>
+            <button className="quickstart-btn" onClick={handleQuickstartSubmit}>Quickstart</button>
+            <button className="submit-btn" type="submit">Submit</button>
         </form>
     </>
   );
