@@ -11,8 +11,8 @@
 }
 
 .background {
-  background: linear-gradient(to bottom, #e0f7fa, #ffffff);
-  height: 100vh;
+  background: lightblue;
+  height: 100%;
 }
 
 .ph-subheader {

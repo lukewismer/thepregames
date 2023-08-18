@@ -209,7 +209,7 @@ function PowerHourForm() {
   
 
   return (
-    <>
+    <div className='ph-screen-bg'>
         <Navbar />
         <form className="form-container" onSubmit={handleSubmit}>
             <h2>Power Hour Set Up</h2>
@@ -294,7 +294,7 @@ function PowerHourForm() {
             <button className="quickstart-btn" onClick={handleQuickstartSubmit}>Quickstart</button>
             <button className="submit-btn" type="submit">Submit</button>
         </form>
-    </>
+    </div>
   );
 }
 

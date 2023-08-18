@@ -29,7 +29,7 @@ while "items" in data and len(data["items"]) != 0:
     print(f"-------  PAGE #{page_index} --------")
     for player_link in data["items"]:
         player = requests.get(player_link["$ref"]).json()
-        if player["active"] == True and "jersey" in player and "dateOfBirth" in player and "weight" in player and "displayHeight" in player and "position" in player and "fullName" in player and "team" in player:
+        if player["active"] == True and player["status"]["type"] == "active" and "jersey" in player and "dateOfBirth" in player and "weight" in player and "displayHeight" in player and "position" in player and "fullName" in player and "team" in player:
             print("Adding player: " + player["id"])
             team_link = player["team"]["$ref"]
             team_data = requests.get(team_link).json()

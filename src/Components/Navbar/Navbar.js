@@ -16,6 +16,7 @@ function Navbar() {
         </li>
         <li><a href="/horserace">Horse Race</a></li>
         <li><a href="/aroundtheworld">Around The World</a></li>
+        <li><a href="/propursuit">Pro Pursuit</a></li>
       </ul>
     </nav>
   );

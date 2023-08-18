@@ -1,0 +1,111 @@
+.pp-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .pp-title,
+  .pp-description {
+    text-align: center;
+  }
+  
+  .pp-grid {
+    display: grid;
+    grid-template-rows: 100px repeat(7, 100px); /* Making the top row a header */
+    grid-template-columns: repeat(10, 125px);
+    gap: 2px; /* Set a gap between cells */
+    border: 1px solid #000;
+    margin: 0 auto;
+    background-color: lightgrey;
+  }
+  
+  .pp-grid div {
+    border: 1px solid #000; /* Border for individual cells */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center content inside cells */
+  }
+
+  .grid-header {
+    background-color: lightblue;
+    color: black;
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  .guess-wrong {
+    background-color: lightcoral;
+  }
+
+  .guess-right {
+    background-color: lightgreen;
+  }
+
+  .guess-close {
+    background-color: #FEDC56;
+  }
+
+  .grid-cell {
+    text-align: center;
+  }
+
+  .pp-guess-input-tag{
+    width: 60%;
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 25px;
+    margin-top: 50px;
+  }
+
+  .datalist-style {
+    width: 60%;
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+.pp-guess-input {
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 25px;
+    margin-top: 50px;
+}
+
+.custom-dropdown {
+    position: absolute;
+    width: 40%;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    z-index: 100; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-height: 400px;
+    overflow-y: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.custom-dropdown div {
+    padding: 5px;
+    cursor: pointer;
+}
+
+.custom-dropdown div:hover {
+    background-color: #f0f0f0;
+}
+
+  
+  .guess-counter {
+    font-size: 30px;
+    text-align: center;
+  }
+  
+  
