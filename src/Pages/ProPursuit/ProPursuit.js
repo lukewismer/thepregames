@@ -7,6 +7,8 @@ import Navbar from '../../Components/Navbar/Navbar';
 
 import ProPursuitForm from './ProPursuitForm';
 
+const logo = require('../../Assets/Beer_logo.png');
+
 const ProPursuit = () => {
     // Need to query the firebase database for the sports data
     const [data, setData] = useState(null);
@@ -21,6 +23,8 @@ const ProPursuit = () => {
     const [ selectedSelection, setSelectedSelection ] = useState([]);
     const [ selectedPlayer, setSelectedPlayer ] = useState("");
     const [ selectedPlayerData, setSelectedPlayerData ] = useState([]);
+
+    const [ isWin, setIsWin ] = useState(false);
 
     const [ guess, setGuess ] = useState([]);
 
@@ -190,6 +194,7 @@ const ProPursuit = () => {
         return 'NFL';
     };
 
+    
     const handleGuess = (player) => {
         const finalPlayerName = selectedPlayer.split(' - ')[0];
         const finalPlayerTeam = selectedPlayer.split(' - ')[1].replace('(', '').replace(')', '');
@@ -211,20 +216,23 @@ const ProPursuit = () => {
         const guessAge = "age" in guessPlayer ? guessPlayer["age"] : guessPlayer["Age"];
         const guessNumber = "number" in guessPlayer ? guessPlayer["number"] : guessPlayer["jersey"] ? guessPlayer["jersey"] : guessPlayer["jerseyNumber"];
 
-        guessDataArr.push({
-            guessPlayerName,
-            guessLeague,
-            guessConference,
-            guessDivision,
-            guessTeam,
-            guessPosition,
-            guessHeight,
-            guessWeight,
-            guessAge,
-            guessNumber
-        });
-
-        setGuessDataArr(guessDataArr);
+        
+        setGuessDataArr(prevGuessDataArr => [
+            ...prevGuessDataArr,
+            {
+                guessPlayerName,
+                guessLeague,
+                guessConference,
+                guessDivision,
+                guessTeam,
+                guessPosition,
+                guessHeight,
+                guessWeight,
+                guessAge,
+                guessNumber
+            }
+        ]);
+        
 
         setGuess({
             guessPlayerName,
@@ -238,6 +246,8 @@ const ProPursuit = () => {
             guessAge,
             guessNumber
         });
+
+        
     };
 
     const parseHeight = (height) => {
@@ -246,7 +256,6 @@ const ProPursuit = () => {
         return feet * 12 + inches;
     };
     
-
     const renderGuessData = () => {
         if (guessDataArr.length === 0 || selectedPlayer.length === 0) {
             return null;
@@ -276,7 +285,7 @@ const ProPursuit = () => {
                 <div className={
                     finalPosition.toLowerCase() === player.guessPosition.toLowerCase()
                     ? 'grid-cell guess-right'
-                    : selectedLeagues.includes("NFL") && (
+                    : selectedLeagues.includes("NFL") || selectedLeagues.includes("All") && (
                         (offense.includes(finalPosition) && offense.includes(player.guessPosition)) ||
                         (defense.includes(finalPosition) && defense.includes(player.guessPosition)) ||
                         (specialTeams.includes(finalPosition) && specialTeams.includes(player.guessPosition))
@@ -286,6 +295,7 @@ const ProPursuit = () => {
                     }
                 >{player.guessPosition}</div>
                 <div className={
+                    Math.abs(parseHeight(finalHeight) === parseHeight(player.guessHeight)) ? 'grid-cell guess-right' :
                     Math.abs(parseHeight(finalHeight) - parseHeight(player.guessHeight)) <= 2
                     ? 'grid-cell guess-close'
                     : 'grid-cell guess-wrong'
@@ -323,6 +333,16 @@ const ProPursuit = () => {
         ));
     };
 
+    useEffect(() => {
+        if (guessDataArr.length > 0 && selectedPlayer.length > 0) {
+            const finalPlayerName = selectedPlayer.split(' - ')[0];
+            const finalPlayerTeam = selectedPlayer.split(' - ')[1].replace('(', '').replace(')', '');
+    
+            if (finalPlayerName.toLowerCase() === guessDataArr[guessDataArr.length - 1].guessPlayerName.toLowerCase() && finalPlayerTeam.toLowerCase() === guessDataArr[guessDataArr.length - 1].guessTeam.toLowerCase()) {
+                setIsWin(true);
+            }
+        }
+    }, [guessDataArr, selectedPlayer]);
 
     useEffect(() => {
         if (selectedPlayer.length > 0) {
@@ -350,6 +370,7 @@ const ProPursuit = () => {
     return (
         <div className="pro-pursuit">
             <Navbar />
+            { (guessDataArr.length === 8 || isWin === true) ? <GameToast isWinning={isWin} playerName={selectedPlayer} numGuesses={guessDataArr.length} /> : null }
             {showForm && <ProPursuitForm onClose={handleClose} playerData={playersNames} nhlPlayerNames={nhlPlayers} nbaPlayerNames={nbaPlayers} nflPlayerNames={nflPlayers}/>}
             <div className="pp-container">
                 <div className="pp-title">
@@ -361,7 +382,7 @@ const ProPursuit = () => {
                 <div className="pp-game">
                     <div className="pp-guess">
                         <div className="pp-guess-counter">
-                            <h5 className="guess-counter">Guesses: {guessDataArr.length}</h5>
+                            <h5 className="guess-counter">Guesses: {guessDataArr.length} / 8</h5>
                         </div>
                         <div className="pp-guess-input" ref={inputRef}>
                             <input
@@ -405,4 +426,24 @@ const ProPursuit = () => {
     );
 }
 
+const GameToast = ({ isWinning, playerName, numGuesses }) => {
+    const headerText = isWinning ? `Congratulations, you got it in ${numGuesses} guesses!` : 'Better Luck Next Time!';
+    const bodyText = isWinning ? `The player was ${playerName}` : `The player was ${playerName}`;
+    const iconImageSrc = isWinning ? logo : logo;
+  
+    return (
+      <div className="toast-container">
+        <div className="toast">
+          <div className="toast-header">{headerText}</div>
+          <img className="toast-icon" src={iconImageSrc} alt={isWinning ? 'Winning' : 'Losing'} />
+          <div className="toast-body">{bodyText}</div>
+          <div className="toast-buttons">
+            <button onClick={() => window.location.reload()}>Restart</button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  
 export default ProPursuit;
