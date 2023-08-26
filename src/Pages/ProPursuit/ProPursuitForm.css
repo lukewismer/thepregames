@@ -77,4 +77,33 @@
     color: #ffffff; /* White text color when selected */
   }
 
+  .custom-dropdown-pp {
+    position: relative;
+  }
+  
+  .player-input {
+    width: 100%;
+  }
+  
+  .player-select {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 250px;
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid #ccc;
+    z-index: 1;
+  }
+  
+  .player-select div {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .player-select div:hover {
+    background-color: #f1f1f1;
+  }
+  
   

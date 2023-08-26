@@ -17,10 +17,6 @@ def convert_birthdate_to_age(birthdate):
     age = today.year - birth_year - ((today.month, today.day) < (birth_month, birth_day))
     return age
 
-superstars = ["Stephen Curry", "Michael Jordan", "Kevin Durant",
-             "Lebron James", "Allen Iverson"]
-
-#initialize empty lists that will put player id into
 
 all_players = players.get_players()
 active_player_ids = []
@@ -32,6 +28,7 @@ for player in all_players:
 
 player_data = []
 for player_id in active_player_ids:
+    print("Getting player: " + str(player_id))
     temp_data = commonplayerinfo.CommonPlayerInfo(player_id=player_id).get_data_frames()[0].to_dict()
 
     team_id = temp_data["TEAM_ID"][0]
@@ -64,6 +61,11 @@ cred = credentials.Certificate('serviceAccount.json')
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
+
+docs = db.collection(u'nba_players').stream()
+for doc in docs:
+    doc.reference.delete()
+    print("Deleted player: " + doc.to_dict()["name"] + " from the database")
 
 for db_player in player_data:
     db.collection(u'nba_players').document(str(db_player["id"])).set(db_player)

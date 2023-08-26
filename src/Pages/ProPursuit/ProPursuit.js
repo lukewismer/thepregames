@@ -57,10 +57,35 @@ const ProPursuit = () => {
             if (!playerInfo.name.includes(input)) {
                 return false;
             }
+            console.log(playerInfo)
 
-            if (selectedLeagues.length === 0 || selectedLeagues.includes(playerInfo.league) || selectedLeagues.includes('All')) {
-                return true;
+            const playerPool = [];
+            if (selectedPool.length === 0 || selectedPool.includes("All")) {
+                playerPool.push("All");
+            } 
+            if (selectedPool.includes("Fantasy Relevant")) {
+                if (playerInfo.fantasy_relevant === true)
+                {
+                    playerPool.push("Fantasy Relevant");
+                }
             }
+            if (selectedPool.includes("Starter"))
+            {
+                if (playerInfo.starter === true)
+                {
+                    playerPool.push("Starter");
+                }
+            }
+
+            
+            if (
+                (selectedLeagues.length === 0 || 
+                selectedLeagues.includes(playerInfo.league) || 
+                selectedLeagues.includes('All')) && 
+                (playerPool.some(pool => selectedPool.includes(pool)))
+              ) {
+                return true;
+              }
 
             return false;
         }).map(playerInfo => playerInfo.fullName);
@@ -80,6 +105,8 @@ const ProPursuit = () => {
                 name: playerName.toLowerCase(),
                 fullName: player,
                 league: playerLeague,
+                fantasy_relevant: playerData.fantasy_relevant,
+                starter: playerData.starter
             };
         });
 
@@ -96,69 +123,78 @@ const ProPursuit = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            if (localStorage.getItem('playersData')) {
+            const currentTime = new Date().getTime();
+            const lastFetchTime = localStorage.getItem('lastFetchTime');
+    
+            if (lastFetchTime && (currentTime - lastFetchTime < 24 * 60 * 60 * 1000)) {
+                // Load data from localStorage
                 const playersData = JSON.parse(localStorage.getItem('playersData'));
                 setData(playersData);
-
+    
                 const allPlayerNames = JSON.parse(localStorage.getItem('allPlayerNames'));
                 setPlayersNames(allPlayerNames);
-
+    
                 const nbaPlayerNames = JSON.parse(localStorage.getItem('nbaPlayers'));
                 setNbaPlayers(nbaPlayerNames);
-
+    
                 const nhlPlayerNames = JSON.parse(localStorage.getItem('nhlPlayers'));
                 setNhlPlayers(nhlPlayerNames);
-
+    
                 const nflPlayerNames = JSON.parse(localStorage.getItem('nflPlayers'));
                 setNflPlayers(nflPlayerNames);
             } else {
+                // Fetch new data
                 const nbaPlayersCollection = collection(db, 'nba_players');
                 const nbaPlayersSnapshot = await getDocs(nbaPlayersCollection);
-
+    
                 const nhlPlayersCollection = collection(db, 'nhl_players');
                 const nhlPlayersSnapshot = await getDocs(nhlPlayersCollection);
-
+    
                 const nflPlayersCollection = collection(db, 'nfl_players');
                 const nflPlayersSnapshot = await getDocs(nflPlayersCollection);
-
+    
                 const nbaPlayersList = nbaPlayersSnapshot.docs.map(doc => doc.data());
                 const nhlPlayersList = nhlPlayersSnapshot.docs.map(doc => doc.data());
                 const nflPlayersList = nflPlayersSnapshot.docs.map(doc => doc.data());
-
+    
                 const playersData = {
                     nbaPlayers: nbaPlayersList,
                     nhlPlayers: nhlPlayersList,
                     nflPlayers: nflPlayersList
                 };
-
+    
                 const allPlayerNames = [
                     ...nbaPlayersList.map(player => `${player.name} - (${player.team})`),
                     ...nhlPlayersList.map(player => `${player.name} - (${player.Team})`),
                     ...nflPlayersList.map(player => `${player.name} - (${player.team})`),
                 ];
-
+    
                 const nbaPlayerNames = nbaPlayersList.map(player => `${player.name} - (${player.team})`);
                 const nhlPlayerNames = nhlPlayersList.map(player => `${player.name} - (${player.Team})`);
                 const nflPlayerNames = nflPlayersList.map(player => `${player.name} - (${player.team})`);
-
+    
                 setNbaPlayers(nbaPlayerNames);
                 setNhlPlayers(nhlPlayerNames);
                 setNflPlayers(nflPlayerNames);
-
+                
+                setPlayersNames(allPlayerNames);
+                setData(playersData);
+    
+                // Save everything to localStorage
                 localStorage.setItem('nbaPlayers', JSON.stringify(nbaPlayerNames));
                 localStorage.setItem('nhlPlayers', JSON.stringify(nhlPlayerNames));
                 localStorage.setItem('nflPlayers', JSON.stringify(nflPlayerNames));
-
-                setPlayersNames(allPlayerNames);
                 localStorage.setItem('allPlayerNames', JSON.stringify(allPlayerNames));
-
-                setData(playersData);
                 localStorage.setItem('playersData', JSON.stringify(playersData));
+    
+                // Update the last fetch time
+                localStorage.setItem('lastFetchTime', currentTime.toString());
             }
         };
-
+    
         fetchData();
     }, []);
+    
 
     const handleClose = (selectedLeagues, selectedPool, selectedSelection, selectedPlayer) => {
         
@@ -367,11 +403,12 @@ const ProPursuit = () => {
         };
     }, []);
 
+    console.log(data)
     return (
         <div className="pro-pursuit">
             <Navbar />
             { (guessDataArr.length === 8 || isWin === true) ? <GameToast isWinning={isWin} playerName={selectedPlayer} numGuesses={guessDataArr.length} /> : null }
-            {showForm && <ProPursuitForm onClose={handleClose} playerData={playersNames} nhlPlayerNames={nhlPlayers} nbaPlayerNames={nbaPlayers} nflPlayerNames={nflPlayers}/>}
+            {showForm && <ProPursuitForm onClose={handleClose} playerData={data} playerNames={playersNames} nhlPlayerNames={nhlPlayers} nbaPlayerNames={nbaPlayers} nflPlayerNames={nflPlayers}/>}
             <div className="pp-container">
                 <div className="pp-title">
                     <h1>ProPursuit</h1>
