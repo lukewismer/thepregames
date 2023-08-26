@@ -357,7 +357,7 @@ const ProPursuit = () => {
                 >{player.guessAge} {finalAge > player.guessAge ? '↑' : finalAge < player.guessAge ? '↓' : ''}</div>
 
                 <div className={
-                    finalNumber.toLowerCase() === player.guessNumber.toLowerCase()
+                    finalNumber === player.guessNumber
                     ? 'grid-cell guess-right'
                     : Math.abs(finalNumber - player.guessNumber) <= 10
                         ? 'grid-cell guess-close'
@@ -403,7 +403,7 @@ const ProPursuit = () => {
         };
     }, []);
 
-    console.log(data)
+    
     return (
         <div className="pro-pursuit">
             <Navbar />

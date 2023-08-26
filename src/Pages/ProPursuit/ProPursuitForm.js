@@ -51,7 +51,6 @@ const ProPursuitForm = ({ onClose, playerData, playerNames, nhlPlayerNames, nbaP
             if (playerNames.includes(player)) {
                 setSelectedPlayer(player);
             } else {
-                alert('Player is not in the NHL, NBA, or NFL: A random player will be selected if you submit');
                 setSelectedPlayer(null);
             }
         } else if (selectedPool.includes('Fantasy Relevant')) {
@@ -60,7 +59,6 @@ const ProPursuitForm = ({ onClose, playerData, playerNames, nhlPlayerNames, nbaP
                 if (playerNames.includes(player)) {
                     setSelectedPlayer(player);
                 } else {
-                    alert('Player is not in the NHL, NBA, or NFL: A random player will be selected if you submit');
                     setSelectedPlayer(null);
                 }
             } else {
@@ -72,7 +70,6 @@ const ProPursuitForm = ({ onClose, playerData, playerNames, nhlPlayerNames, nbaP
                 if (playerNames.includes(player)) {
                     setSelectedPlayer(player);
                 } else {
-                    alert('Player is not in the NHL, NBA, or NFL: A random player will be selected if you submit');
                     setSelectedPlayer(null);
                 }
             } else {
