@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import './PowerHour.css';
 import { useNavigate } from 'react-router-dom';
 
+const icon = require('./lightning_icon.png');
 
 
 const PowerHour = () => {
@@ -137,14 +138,11 @@ const PowerHour = () => {
           {isFinished ? (
             <>
             <div className="success-message">
-              <p>All done PowerHour. Time to get behind a wheel now</p>
+              <p>Congratulations on completing powerhour!</p>
             </div>
             <iframe src='https://gfycat.com/ifr/HarmfulHonestDuckbillcat' title="gifFinsihes" frameborder='0' scrolling='no' allowfullscreen width='640' height='405'></iframe>
             <ReactPlayer className="reactPlayer" url="https://www.youtube.com/watch?v=ym_jVTcBxSU" playing={true} />
             </>
-            
-            
-            
 
           ) : (
             <>

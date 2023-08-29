@@ -3,7 +3,12 @@ import './HorseRace.css';
 import Navbar from "../../Components/Navbar/Navbar";
 import Card from "../../Components/Card";
 import Modal from "../../Components/Modal/Modal";
-import { useNavigate } from 'react-router-dom';
+
+import Instructions from "../../Components/Instructions-Popup/Instructions";
+
+import { FaQuestion } from 'react-icons/fa';
+
+const icon = require('./horse_icon.png');
 
 const SUITS = ['H', 'C', 'D', 'S'];
 const VALUES = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
@@ -66,11 +71,8 @@ const HorseRace = () => {
     const [isFinished, setIsFinished] = useState(false);
     const [winner, setWinner] = useState(null);
 
-    const navigate = useNavigate();
-    const routeChange = () =>{
-        let path = '/powerhour';
-        navigate(path);
-    }
+    const [isInstructionsOpen, setIsInstructionsOpen] = useState(false);
+
     const refreshPage = () => {
         window.location.reload();
     }
@@ -102,7 +104,7 @@ const HorseRace = () => {
         }
         if (heartsIndex >= 3 && diamondsIndex >= 3 && spadesIndex >= 3 && clubsIndex >= 3 && topRow3Reveal === false){
             setTopRow3Reveal(true);
-            if (topRow1[0] === "H"){
+            if (topRow3[0] === "H"){
                 setHeartsIndex(prevIndex => prevIndex - 1);
             } else if (topRow3[0] === "D"){
                 setDiamondsIndex(prevIndex => prevIndex - 1);
@@ -114,7 +116,7 @@ const HorseRace = () => {
         }
         if (heartsIndex >= 4 && diamondsIndex >= 4 && spadesIndex >= 4 && clubsIndex >= 4 && topRow4Reveal === false){
             setTopRow4Reveal(true);
-            if (topRow1[0] === "H"){
+            if (topRow4[0] === "H"){
                 setHeartsIndex(prevIndex => prevIndex - 1);
             } else if (topRow4[0] === "D"){
                 setDiamondsIndex(prevIndex => prevIndex - 1);
@@ -126,7 +128,7 @@ const HorseRace = () => {
         }
         if (heartsIndex >= 5 && diamondsIndex >= 5 && spadesIndex >= 5 && clubsIndex >= 5 && topRow5Reveal === false){
             setTopRow5Reveal(true);
-            if (topRow1[0] === "H"){
+            if (topRow5[0] === "H"){
                 setHeartsIndex(prevIndex => prevIndex - 1);
             } else if (topRow5[0] === "D"){
                 setDiamondsIndex(prevIndex => prevIndex - 1);
@@ -138,7 +140,7 @@ const HorseRace = () => {
         }
         if (heartsIndex >= 6 && diamondsIndex >= 6 && spadesIndex >= 6 && clubsIndex >= 6 && topRow6Reveal === false){
             setTopRow6Reveal(true);
-            if (topRow1[0] === "H"){
+            if (topRow6[0] === "H"){
                 setHeartsIndex(prevIndex => prevIndex - 1);
             } else if (topRow6[0] === "D"){
                 setDiamondsIndex(prevIndex => prevIndex - 1);
@@ -150,7 +152,7 @@ const HorseRace = () => {
         }
         if (heartsIndex >= 7 && diamondsIndex >= 7 && spadesIndex >= 7 && clubsIndex >= 7 && topRow7Reveal === false){
             setTopRow7Reveal(true);
-            if (topRow1[0] === "H"){
+            if (topRow7[0] === "H"){
                 setHeartsIndex(prevIndex => prevIndex - 1);
             } else if (topRow7[0] === "D"){
                 setDiamondsIndex(prevIndex => prevIndex - 1);
@@ -170,7 +172,6 @@ const HorseRace = () => {
             if (maxIndex === 3) {setWinner("Clubs");}
         }
     }, [heartsIndex, diamondsIndex, spadesIndex, clubsIndex])
-    
 
     const handleDeckClick = () => {
         if (!isFinished){
@@ -196,8 +197,18 @@ const HorseRace = () => {
         <div className="content-container">
             <Navbar />
             <div className="horse-race">
-                <h1>Horse Race</h1>
+                <div className="horse-race-title-row">
+                    <h1 className="horse-race-title">Horse Race</h1>
+                    <FaQuestion className="instructions-btn-hr" onClick={() => setIsInstructionsOpen(true)} />
+                </div>
+                { isInstructionsOpen && <Instructions gameTitle="Horse Race" subheader="Pick Your Horse, Place Your Bets and Get Ready To Cheer!" icon={icon} instructionsText="Pick your horse (represented as the aces) and place your bet.
+                Your bet can be any number of sips and if your horse is the winner you can hand out your drinks. If your horse loses you have to do whatever you bet. If the card flipped is the same suit as your horse, your horse advances 1
+                spot. As soon as all cards have reached a certain column, the respective card in the top row is revealed. Whichever suit is revealed in the top row, it moves that horse back one spot. Good Luck!" onClose={() => setIsInstructionsOpen(false)}/>}
+
                 {isFinished ? <Modal header={`${winner} have won!`} message={"Time to hand out your bets"} buttonText={"Restart"} onButtonClick={refreshPage}></Modal> : ''}
+                <div className="hr-icon-row">
+                    <img className="hr-icon" src={icon} />
+                </div>
                 <div className="deck-row">
                     <img src={require('../../Images/cards/back_of_card.png')} className="back-of-card-deck" onClick={handleDeckClick} />
                     {flippedCard != null ?  <Card className={"back-of-card"} value={flippedCard[0]} suit={flippedCard[1]} faceUp={true} /> : 

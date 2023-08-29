@@ -4,6 +4,11 @@ import { useNavigate } from 'react-router-dom';
 
 import './PowerHourForm.css';
 
+import { FaQuestion } from 'react-icons/fa';
+import Instructions from '../../Components/Instructions-Popup/Instructions';
+
+const icon = require('../PowerHour/lightning_icon.png');
+
 const songs = [ 
     { "name": "Break Your Heart", "url": "https://www.youtube.com/watch?v=ddgcdagdbwI"},
     { "name": "Bad Romance", "url": "https://www.youtube.com/watch?v=TTOPBQhrvtQ"},
@@ -160,14 +165,17 @@ const songs = [
   ];
 
 
+
 function PowerHourForm() {
   const [name, setName] = useState('');
   const [playlist, setPlaylist] = useState("prom"); 
   const [songInterval, setSongInterval] = useState(60000); 
   const [tornadoInterval, setTornadoInterval] = useState(180000); 
   const [namesList, setNamesList] = useState([]);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
+
+  const [ instructionsOpen, setInstructionsOpen ] = useState(false);
 
   const handleAddName = () => {
     setNamesList([...namesList, name]);
@@ -212,8 +220,22 @@ function PowerHourForm() {
     <div className='ph-screen-bg'>
         <Navbar />
         <form className="form-container" onSubmit={handleSubmit}>
-            <h2>Power Hour Set Up</h2>
+          <div className="power-hour-title-row">
+            <h2 className='power-hour-title'>Power Hour Set Up</h2>
+            <button className="instructions-btn" onClick={(e) => { e.preventDefault(); setInstructionsOpen(!instructionsOpen); }}><FaQuestion /></button>
+          </div>
+            
             {errorMessage && <div className="error">{errorMessage}</div>}
+            {instructionsOpen && <Instructions 
+                                    gameTitle="PowerHour Instructions" 
+                                    subheader="Every minute, a new song will play. When a song ends, take a shot!" 
+                                    icon={icon} 
+                                    instructionsText="The game will last for 60 minutes. Quickstart version sets the most basic instructions of 60 second song interval, no tornados
+                                                        and no gifs. Just you, your friends, and the music. For a more elaborate game, fill out the form below. A tornado is a random event that will 
+                                                        occur every 3-5 minutes. When a tornado occurs, a random player will be selected to perform a tornado while a random GIF is shown. A tornado consists of taking 5 sips and then 
+                                                        spinning around 5 times. Good Luck!"
+                                    onClose={() => setInstructionsOpen(false)}
+                                  />}
 
             <label htmlFor="name">Name:</label>
             <div className="input-group">

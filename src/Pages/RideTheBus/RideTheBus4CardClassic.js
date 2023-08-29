@@ -3,7 +3,15 @@ import Card from '../../Components/Card';
 import Navbar from '../../Components/Navbar/Navbar';
 import './RideTheBus.css';
 
+import Instructions from '../../Components/Instructions-Popup/Instructions';
+
+import { FaQuestion } from 'react-icons/fa';
+
 let blank_card = require('../../Images/cards/blank_card.png');
+
+
+
+const icon = require('./bus_icon.png');
 
 const SUITS = ['H', 'C', 'D', 'S'];
 const VALUES = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
@@ -59,6 +67,8 @@ const RideTheBus_4CardClassic = () => {
     const [ isDiamondsButtonDark, setIsDiamondsButtonDark ] = useState(false);
     const [ isClubsButtonDark, setIsClubsButtonDark ] = useState(false);
     const [ isSpadesButtonDark, setIsSpadesButtonDark ] = useState(false);
+
+    const [ isInstructionsOpen, setIsInstructionsOpen ] = useState(false);
 
     const handleShuffle = () => {
         setDeck(shuffleDeck(generateDeck()));
@@ -266,7 +276,16 @@ const RideTheBus_4CardClassic = () => {
         <div className="ride-the-bus">
             <Navbar />
             <div>
-                <h1 className="title">Ride The Bus: 4 Card Classic</h1>
+            <div className="ride-the-bus-title-row">
+                <h1 className="ride-the-bus-title">Ride The Bus: 4 Card Classic</h1>
+                <FaQuestion className="instructions-btn-rtb" onClick={() => setIsInstructionsOpen(true)} />
+            </div>
+            { isInstructionsOpen && <Instructions gameTitle="Ride The Bus (4 Card) Instructions" subheader="Guess correctly or drink!" icon={icon} instructionsText="For this version
+                                        to ride the bus you will follow the prompts and click on the cards to reveal. The order will be red/black, higher/lower, inside/outside, hearts/diamonds/spades/clubs
+                                        . Set your guess before you flip and if it is wrong you drink. If it is wrong you can change your guess or continue flipping until it is right. Good luck!" onClose={() => setIsInstructionsOpen(false)}/>}
+                <div className="rtb-icon-row">
+                    <img className="rtb-icon" src={icon} />
+                </div>
                 <h2 className="sub-header">Cards Flipped: {topCardIndex}</h2>
                 
                 <div className='btn-row'>
@@ -288,7 +307,7 @@ const RideTheBus_4CardClassic = () => {
                             <button className={isDiamondsButtonDark ? "red-btn-dark" : "red-btn"} onClick={() => setRow4Guess("Diamonds")}>DIAMONDS</button>
                             <button className={isClubsButtonDark ? "black-btn-dark" : "black-btn"} onClick={() => setRow4Guess("Clubs")}>CLUBS</button>
                             <button className={isSpadesButtonDark ? "black-btn-dark" : "black-btn"} onClick={() => setRow4Guess("Spades")}>SPADES</button>
-                        </div> : <WinnerMessage show={true} restart={handleShuffle} />
+                        </div> : <WinnerMessage show={true} restart={() => window.location.reload()} />
                     }
                 </div>
 

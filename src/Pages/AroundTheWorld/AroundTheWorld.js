@@ -3,6 +3,10 @@ import Navbar from '../../Components/Navbar/Navbar';
 import './AroundTheWorld.css';
 import Card from '../../Components/Card';
 
+import Instructions from '../../Components/Instructions-Popup/Instructions';
+
+import { FaQuestion } from 'react-icons/fa';
+
 const SUITS = ['H', 'C', 'D', 'S'];
 const VALUES = ['A', '2', '3', '4', '5', '6', '8', '9', '10', 'J', 'Q', 'K'];
 
@@ -34,15 +38,6 @@ const shuffleDeck = (deck) => {
   return shuffledDeck;
 };
 
-const forceShuffle = () => {
-  //I want to shuffle the deck so it will be AH, AD, AC, AS, 2H, 2D, 2C, 2S, 3H, 3D, 3C, 3S, etc.
-
-  const deck = [{"suit": "H", "value": "A"}, {"suit": "D", "value": "2"}, {"suit": "C", "value": "3"}, {"suit": "S", "value": "3"}];
-
-  console.log(deck);
-
-  return deck;
-}
 
 const AroundTheWorld = () => {
     const [deck, setDeck] = useState(() => shuffleDeck(generateDeck()));
@@ -68,6 +63,8 @@ const AroundTheWorld = () => {
     const [card20Clicked, setCard20Clicked] = useState(false);
 
     const [btnClicked, setBtnClicked] = useState(null);
+
+    const [isInstructionsOpen, setIsInstructionsOpen] = useState(false);
 
 
     const [guess, setGuess] = useState(null);
@@ -181,8 +178,10 @@ const AroundTheWorld = () => {
         }
         if (guess === "higher"){
           if (cards[index - 1] != null && parseCardInt(cards[index - 1][0]) < parseCardInt(newCard[0])){ // Guess is higher and edge case 1
+            console.log("true1")
             return true;
           } else if (cards[index + 1] != null && parseCardInt(cards[index + 1][0]) < parseCardInt(newCard[0])){ // Guess is higher and edge case 1
+            console.log("true2")
             return true;
           } else {return false} 
         } else if (guess == "lower"){
@@ -1089,13 +1088,19 @@ const AroundTheWorld = () => {
     
   return (
     <div className="wrapper-bg">
+    { isInstructionsOpen && <Instructions gameTitle="Around The World" subheader="Higher, Lower, Inside or Outside. Take Risks... and Sips!" icon={colored_globe} instructionsText="The goal is to have every card flipped up. The 7s will always stay face up
+    and you start by selecting higher or lower to one of the neighbors 7s. You can select any card that has a faceup neighbor to guess higher or lower. If you get it wrong, every card that is not a 7 will be turned back over,
+    and for every card that gets flipped back over you take a sip. If a card has two neighbors you can guess inside or outside. If it is a tie you will be given the chance to guess again. Good Luck!" onClose={() => setIsInstructionsOpen(false)}/>}
     <Navbar />
         <div className='container'>
         <div className='title-container'>
           <img src={colored_globe} className="colored-globe"></img>
           <h1 className='around-the-world-title'>Around The World</h1>
           <img src={colored_globe} className="colored-globe reverse-img"></img>
+          <FaQuestion className="instructions-btn-hr" onClick={() => setIsInstructionsOpen(true)} />
         </div>
+        
+
         <div className={"btn-container"}>
           <button className={btnClicked === 0 ? 'guess-btn-active' : 'guess-btn'} onClick={handleBtnClickHigher}>Higher</button>
           

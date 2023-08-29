@@ -1,11 +1,19 @@
 import React, { useState } from 'react';
 import './ProPursuitForm.css';
 
+import Instructions from '../../Components/Instructions-Popup/Instructions';
+
+import { FaQuestion } from 'react-icons/fa';
+
+const icon = require('./pp-icon.png');
+
 const ProPursuitForm = ({ onClose, playerData, playerNames, nhlPlayerNames, nbaPlayerNames, nflPlayerNames}) => {
   const [selectedLeagues, setSelectedLeagues] = useState(["All"]);
   const [selectedPool, setSelectedPool] = useState(["All"]);
   const [selectedSelection, setSelectedSelection] = useState("Auto");
   const [selectedPlayer, setSelectedPlayer] = useState(null);
+
+  const [isInstructionsOpen, setIsInstructionsOpen] = useState(false);
 
   const handleLeagueChange = (league) => {
     if (selectedLeagues.includes(league)) {
@@ -1111,10 +1119,19 @@ const ProPursuitForm = ({ onClose, playerData, playerNames, nhlPlayerNames, nbaP
 
   return (
     <div className="form-popup">
+        
       <div className="form-container">
-        <div className="form-title">
-          <h1>Welcome to Pro Pursuit</h1>
+      
+        <div className="ppf-title-row">
+            <h1 className="ppf-title">Pro Pursuit</h1>
+            <FaQuestion className="instructions-btn-hr" onClick={() => setIsInstructionsOpen(true)} />
         </div>
+        { isInstructionsOpen && <Instructions gameTitle="Pro Pursuit" subheader="Like Wordle, but for your favourite sports players!" icon={icon} instructionsText="Select your player leagues to include,
+        from NFL, NHL, and or NBA. Then select which category of players you want in the player pool. All will include any rostered player in the selected leagues above. Starter will include:
+        (NFL #1 player on depth chart for each position on each team, WR has top 3 and RB has top 2, so 12 Offense and 11 Defense), (NHL will include any player who played over 40 games and any goalie who   
+        played over 20 games), (NBA will include any player who started over 30 games). Fantasy Relevant will include: (NFL a starter who is only from fantasy positions QB, WR, TE, RB), (NHL will include any player who played over 40 games and any goalie who   
+        played over 20 games), (NBA will include any player who averaged over 10 minutes/game). If you want to manually set who the player is to play against your friends select User and enter the player,
+        or you can leave it on Auto for the computer to randomly select" onClose={() => setIsInstructionsOpen(false)}/>}
         <form onSubmit={handleSubmit}>
 
           <div className="player-leagues">

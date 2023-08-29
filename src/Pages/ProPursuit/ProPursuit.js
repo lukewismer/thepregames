@@ -7,6 +7,12 @@ import Navbar from '../../Components/Navbar/Navbar';
 
 import ProPursuitForm from './ProPursuitForm';
 
+import Instructions from '../../Components/Instructions-Popup/Instructions';
+
+import { FaQuestion } from 'react-icons/fa';
+
+const icon = require('./pp-icon.png');
+
 const logo = require('../../Assets/Beer_logo.png');
 
 const ProPursuit = () => {
@@ -35,8 +41,12 @@ const ProPursuit = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [filteredPlayers, setFilteredPlayers] = useState([]);
 
+    const [ isInstructionsOpen, setIsInstructionsOpen ] = useState(true);
+
     const inputRef = useRef(null);
     const playersInfoRef = useRef([]);
+
+    
 
     const offense = ['Quarterback', 'Running Back', 'Wide Receiver', "Offensive Tackle", "Tight End", "Center", "Guard", "Fullback"];
     const defense = ['Cornerback', 'Defensive Tackle', 'Safety', "Defensive End", "Linebacker"];
@@ -363,8 +373,7 @@ const ProPursuit = () => {
                         ? 'grid-cell guess-close'
                         : 'grid-cell guess-wrong'
                     }
-                >{player.guessNumber} {finalNumber > player.guessNumber ? '↑' : finalNumber < player.guessNumber ? '↓' : ''}</div>
-
+                >{player.guessNumber} {parseInt(finalNumber) > parseInt(player.guessNumber) ? '↑' : parseInt(finalNumber) < parseInt(player.guessNumber) ? '↓' : ''}</div>
             </>
         ));
     };
@@ -407,14 +416,23 @@ const ProPursuit = () => {
     return (
         <div className="pro-pursuit">
             <Navbar />
+            { isInstructionsOpen && <Instructions gameTitle="Pro Pursuit" subheader="Like Wordle, but for your favourite sports players!" icon={icon} instructionsText="Now that you have selected your player you can start guessing.
+            The dropdown will only list players that could be a possible answer. You can only filter by player names and not by teams. After guessing for each category if it is correct it will be green, if it is wrong it will be red. Although if it 
+            is close it will appear yellow. Yellow for position means wrong position but correct side of the ball for offense/defense. Yellow for Height means wrong but within 2 inches. Yellow for
+            weight means wrong but withiin 15 lbs. Yellow for Age means wrong but within 2 years, and finally yellow for number means wrong number but it is within 10 numbers. Also the numbers are there to help direct and provide additional
+            info. You have 8 guesses to make, goodluck!" onClose={() => setIsInstructionsOpen(false)}/>}
             { (guessDataArr.length === 8 || isWin === true) ? <GameToast isWinning={isWin} playerName={selectedPlayer} numGuesses={guessDataArr.length} /> : null }
             {showForm && <ProPursuitForm onClose={handleClose} playerData={data} playerNames={playersNames} nhlPlayerNames={nhlPlayers} nbaPlayerNames={nbaPlayers} nflPlayerNames={nflPlayers}/>}
             <div className="pp-container">
-                <div className="pp-title">
-                    <h1>ProPursuit</h1>
-                </div>
+            <div className="ppf-title-row">
+                <h1 className="pp-title">Pro Pursuit</h1>
+                <FaQuestion className="instructions-btn-pp" onClick={() => setIsInstructionsOpen(true)} />
+            </div>
                 <div className="pp-description">
                     <p>ProPursuit is a game where you pick a player from each of the 3 major sports leagues (NBA, NHL, NFL) and get clues to guess.</p>
+                </div>
+                <div className="hr-icon-row">
+                    <img className="hr-icon" src={icon} />
                 </div>
                 <div className="pp-game">
                     <div className="pp-guess">
