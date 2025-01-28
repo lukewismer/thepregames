@@ -10,7 +10,7 @@ import pandas as pd
 
 
 def get_teams_data():
-    r = requests.get("https://statsapi.web.nhl.com/api/v1/teams")
+    r = requests.get("https://api-web.nhle.com/v1/teams")
     return r.json()["teams"]
 
 def get_team_ids(data = get_teams_data()):

@@ -14,6 +14,7 @@ import GameLobby from './Pages/BlackJack/GameLobby';
 import LoadingPage from './Pages/BlackJack/LoadingPage';
 import Player from './Pages/BlackJack/Player';
 import Dealer from './Pages/BlackJack/Dealer';
+import {Tournament} from './Pages/Tournament/Tournament';
 
 const App = () => {
   return (
@@ -33,6 +34,7 @@ const App = () => {
           <Route path="blackjack-loading/:gameCode" element={<LoadingPage />} />
           <Route path="blackjack-play/:gameCode" element={<Player />} />
           <Route path="blackjack-dealer/:gameCode" element={<Dealer />} />
+          <Route path="tournament" element={<Tournament />} />
         </Route>
       </Routes>
     </BrowserRouter>

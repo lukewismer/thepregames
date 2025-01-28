@@ -28,6 +28,7 @@ function Navbar() {
         <li className={styles.navItem}><a href="/aroundtheworld" className={styles.navLink}>Around The World</a></li>
         <li className={styles.navItem}><a href="/propursuit" className={styles.navLink}>Pro Pursuit</a></li>
         <li className={styles.navItem}><a href="/blackjack" className={styles.navLink}>BlackJack</a></li>
+        <li className={styles.navItem}><a href="/tournament" className={styles.navLink}>Tournament</a></li>
       </ul>
     </nav>
   );
