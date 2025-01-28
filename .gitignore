@@ -87,3 +87,6 @@ storybook-static/
 
 # Ignore build output
 /dist
+
+# All env files
+.env*

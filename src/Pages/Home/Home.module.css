@@ -1,0 +1,68 @@
+.HomePage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--primary-color);
+  height: 100vh;
+}
+
+.homeTextContainer {
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 50px;
+}
+
+.iconsContainer {
+  align-items: center;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 200px;
+}
+
+.content {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.homeTitleContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.beerLogo {
+  width: 100px;
+  height: 100px;
+  margin-right: 20px;
+}
+
+.icons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 50px;
+  width: 80%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.horse {
+  width: 80px;
+  height: 80px;
+}
+
+.power {
+  width: 80px;
+  height: 80px;
+}
+
+.bus {
+  width: 100px;
+  height: 80px;
+}
+
+.world {
+  width: 80px;
+  height: 80px;
+}
