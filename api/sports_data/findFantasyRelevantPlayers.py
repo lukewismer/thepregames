@@ -18,7 +18,7 @@ def nhl_players():
     docs = players.stream()
 
     for doc in docs:
-        r = requests.get("https://statsapi.web.nhl.com/api/v1/people/" + str(doc.id) + "/stats?stats=statsSingleSeason&season=20222023")
+        r = requests.get("https://statsapi.web.nhl.com/api/v1/people/" + str(doc.id) + "/stats?stats=statsSingleSeason&season=20242025")
         data = r.json()
         if "stats" in data and "splits" in data["stats"][0] and len(data["stats"][0]["splits"]) > 0:
             if "wins" in data["stats"][0]["splits"][0]["stat"]:

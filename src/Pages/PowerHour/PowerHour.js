@@ -1,203 +1,208 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactPlayer from "react-player";
-import { useLocation } from 'react-router-dom';
-//import Navbar from '../../Components/Navbar/Navbar';
-import './PowerHour.css';
-import { useNavigate } from 'react-router-dom';
-
-const icon = require('./lightning_icon.png');
-
+import { useLocation, useNavigate } from 'react-router-dom';
+import { getCollectionData } from '../../firebase/firestore/getData';
+import styles from './PowerHour.module.css';
 
 const PowerHour = () => {
-
-
   const location = useLocation();
   const songs = location.state.playlistSongs;
-  const songInterval = location.state.songInterval;
-  const tornadoInterval= location.state.tornadoInterval;
-  const players = location.state.namesList;
+  const songInterval = location.state.songInterval || 60000;
+  const tornadoInterval = location.state.tornadoInterval || null; // If null, skip tornado functionality
+  const players = location.state.namesList || []; // If null, skip tornado player functionality
+  const length = location.state.length;
   const tornadoDisplayTime = 20000;
 
-  
-  const images = useMemo(() => ["https://giphy.com/embed/ebP9BKoQbsIRMKNNw8", "https://giphy.com/embed/7FgDOBGyFLgns6aiKb", "https://giphy.com/embed/1mNBTj3g4jRCg",
-                "https://giphy.com/embed/TLulTJKuyLgMU", "https://giphy.com/embed/2A75RyXVzzSI2bx4Gj","https://giphy.com/embed/IIIg3ZHcOqYtW0wEIB",
-                "https://giphy.com/embed/FQ6pL4icGpKH6", "https://giphy.com/embed/26tPo9rksWnfPo4HS", "https://giphy.com/embed/Y4WDXbagwPoepikUdJ", "https://giphy.com/embed/AwP3Ux6rtt5ZCTBo5e",
-                "https://giphy.com/embed/xAFcpblRNMyfvt1oAf", "https://giphy.com/embed/c5paNX4a8hc6A", "https://giphy.com/embed/H9Mm0ULO8AtMc", "https://giphy.com/embed/3EfgWHj0YIDrW",
-                "https://giphy.com/embed/10H4by255F2UsU", "https://giphy.com/embed/l0HU4QhliQGCcelYk", "https://giphy.com/embed/qyjexFwQwJp9yUvMxq", "https://giphy.com/embed/Q0MrhO9BUSxKR8RdZC",
-                "https://giphy.com/embed/pLcVMwRRltmUg", "https://giphy.com/embed/3oz8xxpsXv8pzPgXPG", "https://giphy.com/embed/5hvWaviAuSAl5BJvR2", "https://giphy.com/embed/1VWudpXjhcOC2UYdE9",
-                "https://giphy.com/embed/Y0OXD3S690kwGPDiga", "https://giphy.com/embed/rfZCdXOgS5aDK", "https://giphy.com/embed/BRElOZZ2eOn3q", "https://giphy.com/embed/Zx1ZEctOOvxK5VCwwE",
-                "https://giphy.com/embed/TGWkzI2QdUmvdSz1oa", "https://giphy.com/embed/BCIoXfA95d1ba", "https://giphy.com/embed/wSlEV7ztEQ0zZ3b9Cm", "https://giphy.com/embed/1BXa2alBjrCXC",
-                "https://giphy.com/embed/3kzrzzQXUfI6bmUNf3", "https://giphy.com/embed/xUPGcB5L0TIfLrDH8c", "https://giphy.com/embed/IbchZ7B1ulecFMRNv0", "https://giphy.com/embed/9yRq6zCFW0x6dxJs5V"], [])
-                
-
-  //const tornadoImages = ["https://giphy.com/embed/PUf0dbmg0trz6Tjr8X","https://giphy.com/embed/d3mlXPjoK1ROfr9u"]
-             
   const [currentSongIndex, setCurrentSongIndex] = useState(selectRandom(songs));
-  const [time, setTime] = useState({ min: 0, sec: 0});
+  const [time, setTime] = useState({ min: 0, sec: 0 });
   const [isRunning, setIsRunning] = useState(false);
   const [image, setImage] = useState(null);
-  const [tornadoPerson, setTornadoPerson] = useState(players[selectRandom(players)]);
+  const [tornadoPerson, setTornadoPerson] = useState(players.length > 0 ? players[selectRandom(players)] : null);
   const [tornadoTime, setTornadoTime] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
   const [imageTime, setImageTime] = useState(false);
-  
-  
-  const navigate = useNavigate();
+  const [images, setImages] = useState([]);
+  const [playing, setPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
 
+  const navigate = useNavigate();
+  const circleRadius = 60;
+  const circleCircumference = 2 * Math.PI * circleRadius;
 
   useEffect(() => {
-    let intervalId, intervalId2, tornadoIntervalId;
+    const fetchImages = async () => {
+      const { result, error } = await getCollectionData('tornado_images');
+      if (error) {
+        console.error('Error fetching tornado images:', error);
+      } else if (result && result.length > 0) {
+        setImages(result[0].urls);
+      }
+    };
     
-    if (isRunning) {
+    fetchImages();
+  }, []);
 
-      // Finish
-      setTimeout(() => {
+  useEffect(() => {
+    let tornadoIntervalId, finishTimeout;
+    let animationFrameId;
+    let startTime = null; // Track the start time of the current interval
+  
+    const updateProgress = (currentTime) => {
+      if (!startTime) startTime = currentTime;
+      const elapsedTime = currentTime - startTime;
+  
+      // Calculate total elapsed time in seconds
+      const totalSeconds = Math.floor(elapsedTime / 1000);
+  
+      // Update minutes and seconds=
+      const sec = totalSeconds % 60;
+      setTime((prevTime) => {
+        let newMin = prevTime.min;
+        if (sec === 0 && totalSeconds > 0) {
+          newMin = prevTime.min + 1;
+        }
+        return {
+          min: newMin,
+          sec,
+        };
+      });
+  
+      // Calculate the progress as a percentage of the songInterval
+      const progressPercentage = (elapsedTime % songInterval) / songInterval;
+      setProgress(progressPercentage);
+  
+      // If the elapsed time has passed the song interval, change the song
+      if (elapsedTime >= songInterval) {
+        setCurrentSongIndex((prevIndex) => selectRandom(songs, prevIndex));
+        startTime = currentTime; // Reset the start time for the next song interval
+      }
+  
+      // Call the function on the next animation frame for continuous updates
+      animationFrameId = requestAnimationFrame(updateProgress);
+    };
+  
+    if (isRunning) {
+      // End PowerHour after the defined `length`
+      finishTimeout = setTimeout(() => {
         setIsFinished(true);
-        setTime({ min: 0, sec: 0, ms: 0 });
+        setTime({ min: 0, sec: 0 });
         setCurrentSongIndex(0);
         setIsRunning(false);
-      }, 3600001) 
-
-      // Songs and images
-      intervalId2 = setInterval(() => {
-        setCurrentSongIndex(prevIndex => selectRandom(songs, prevIndex));
-
-          const newImg = images[selectRandom(images, images.indexOf(image))];
-          setImage(newImg);
-          setImageTime(true);
-          setTimeout(() => {
-            setImageTime(false);
-          }, tornadoDisplayTime);
-      }, songInterval);
-
-      // Tornado name
-      tornadoIntervalId = setInterval(() => {
-        console.log("tornado")
-        
-        setTornadoTime(true);
-        setTimeout(() => {
-          setTornadoTime(false);
-          const newPerson = players[selectRandom(players, images.indexOf(tornadoPerson))];
-          setTornadoPerson(newPerson);
-        }, tornadoDisplayTime);
-      }, tornadoInterval)
-
-      // Timer
-      intervalId = setInterval(() => {
-        setTime(prevTime => {
-          let newSec = prevTime.sec + 1;
-          let newMin = prevTime.min;
-
-          if (newSec >= 60) {
-            newSec = 0;
-            newMin++;
-          }
-
-          return { min: newMin, sec: newSec};
-        });
-
-      }, 1000);
+        cancelAnimationFrame(animationFrameId); // Stop updating progress
+      }, length);
+  
+      // Start the continuous progress updates
+      animationFrameId = requestAnimationFrame(updateProgress);
+  
+      return () => {
+        cancelAnimationFrame(animationFrameId); // Cleanup on component unmount
+        clearTimeout(finishTimeout);
+        if (tornadoIntervalId) clearInterval(tornadoIntervalId);
+      };
     }
+  }, [isRunning, songs.length, songInterval]);
   
-    return () => {
-      clearInterval(intervalId);
-      clearInterval(intervalId2);
-      clearInterval(tornadoIntervalId);
-    };
-  }, [isRunning, songs.length]);
-  
-
-
   const handleStart = () => {
     setIsRunning(true);
+    setPlaying(true);
   };
 
+  const handlePause = () => {
+    setPlaying(false);
+  };
 
   const handleReset = () => {
     setIsRunning(false);
-    setTime({ min: 0, sec: 0, ms: 0 });
+    setTime({ min: 0, sec: 0 });
     setCurrentSongIndex(0);
-    
     navigate("/powerhourform");
   };
 
+  const handleProgress = state => {
+    setProgress(state.played * 100);
+  };
+
+  const progressStrokeDashoffset = circleCircumference - (progress * circleCircumference);
+  console.log(progressStrokeDashoffset);
 
   return (
-    <div className="background">
-      
-      <div className="stopwatch-container">
-        <h1>Power Hour</h1>
-        <h3 className='ph-subheadeer'>Tornado Edition</h3>
-        <div className="time-container">
-        <div className="time-display">
+    <div className={styles.background}>
+      <div className={styles.stopwatchContainer}>
+        <button className={`btn-close ${styles.closeButton}`} onClick={() => navigate("/powerhourform")}>X</button>
+        {length === 3600000 ? <h2 className={styles.header}>Power Hour</h2> : <h2 className={styles.header}>Centurion</h2>}
+        <h3 className={styles.phSubheader}>Tornado Edition</h3>
+
+        <div className={styles.timeDisplay}>
           {time.min.toString().padStart(2, "0")}:{time.sec.toString().padStart(2, "0")}
         </div>
-        </div>
-        
-        <div>
-          {isFinished ? (
-            <>
-            <div className="success-message">
-              <p>Congratulations on completing powerhour!</p>
-            </div>
-            <iframe src='https://gfycat.com/ifr/HarmfulHonestDuckbillcat' title="gifFinsihes" frameborder='0' scrolling='no' allowfullscreen width='640' height='405'></iframe>
-            <ReactPlayer className="reactPlayer" url="https://www.youtube.com/watch?v=ym_jVTcBxSU" playing={true} />
-            </>
 
-          ) : (
-            <>
-            {tornadoTime ? (
-              <>
-                <h2>Time to tornado: {tornadoPerson}</h2>
-              </>
-            ) : (
-              <p>Almost tornado time</p>
-            )}
-            {imageTime ? (
-              <>
-                
-                <iframe src={image} title="gif" className="tornadoImage" frameborder="0"></iframe>
-                </>
-            ) : (<></>)}
-            </>
-          )}
-          
+        <div className={styles.progressCircleContainer}>
+        <svg className={styles.progressCircle} width="150" height="150" viewBox="0 0 150 150">
+  {/* Define the gradient within the SVG */}
+  <defs>
+    <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stopColor="#ff883e" />
+      <stop offset="100%" stopColor="#009e60" />
+    </linearGradient>
+  </defs>
+  
+  {/* Background circle */}
+  <circle className={styles.progressCircleBackground} cx="75" cy="75" r={circleRadius} strokeWidth="10" />
+  
+  {/* Foreground progress circle */}
+  <circle
+    className={styles.progressCircleForeground}
+    cx="75"
+    cy="75"
+    r={circleRadius}
+    strokeWidth="10"
+    strokeDasharray={circleCircumference}
+    strokeDashoffset={progressStrokeDashoffset}
+    stroke="url(#progressGradient)"  // Reference the gradient ID
+  />
+</svg>
         </div>
-        <div className="track-display">
+
+        {isFinished ? (
+          <>
+            <p>Congratulations on completing PowerHour!</p>
+            <iframe src='https://gfycat.com/ifr/HarmfulHonestDuckbillcat' title="gifFinish" frameBorder="0" width="640" height="405" allowFullScreen></iframe>
+            <ReactPlayer url="https://www.youtube.com/watch?v=ym_jVTcBxSU" playing />
+          </>
+        ) : (
+          <>
+            {tornadoTime && tornadoPerson ? <h2>Time to tornado: {tornadoPerson}</h2> : <p>Almost tornado time</p>}
+            {imageTime && image && <iframe src={image} title="gif" className={styles.tornadoImage} frameBorder="0"></iframe>}
+          </>
+        )}
+
+        <div className={styles.trackDisplay}>
           {isRunning ? (
-            <ReactPlayer className="reactPlayer" url={songs[currentSongIndex].url} playing={isRunning} />
+            <ReactPlayer className={styles.reactPlayer} url={songs[currentSongIndex].url} playing={isRunning} />
           ) : (
             <p>Song Paused</p>
           )}
-          <h1 className="header">{songs[currentSongIndex].name}</h1>
+          <h1 className={styles.header}>{songs[currentSongIndex].name}</h1>
         </div>
-        <div className="controls">
+
+        <div className={styles.controls}>
           {isRunning ? (
-            <button onClick={handleReset}>Reset</button>
+            <button className={styles.controlButton} onClick={handleReset}>Reset</button>
           ) : (
-            <button onClick={handleStart}>Start</button>
+            <button className={styles.controlButton} onClick={handleStart}>Start</button>
           )}
         </div>
       </div>
     </div>
-    
   );
-
 };
 
-
-
-function selectRandom(items, lastIndex = -1){
-  // Selects random item from list, if second param is provided it checks to make sure it doesn't select same as last time
-  var x = Math.floor(Math.random()*items.length);
-  while (x === lastIndex)
-  {
-    x = Math.floor(Math.random()*items.length);
+function selectRandom(items, lastIndex = -1) {
+  let index = Math.floor(Math.random() * items.length);
+  while (index === lastIndex) {
+    index = Math.floor(Math.random() * items.length);
   }
-  return x;
-
+  return index;
 }
 
-
 export default PowerHour;
-         

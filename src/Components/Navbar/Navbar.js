@@ -1,22 +1,33 @@
-import React from 'react';
-import './Navbar.css';
+import React, { useState } from 'react';
+import styles from './Navbar.module.css'; // Import CSS module
+import { GiHamburgerMenu } from "react-icons/gi";
 
 function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
-    <nav>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/powerhourform">PowerHour</a></li>
-        <li className="dropdown">
-          <a href="#" className="dropbtn">RideTheBus</a>
-          <div className="dropdown-content">
-            <a href="/ridethebus/4-card-classic">4 Card Classic</a>
-            <a href="/ridethebus/5-card-classic">5 Card Classic</a>
+    <nav className={styles.navbar}>
+      <div className={styles.hamburger} onClick={toggleMenu}>
+        <GiHamburgerMenu size={30} color="white" />
+      </div>
+      <ul className={isOpen ? `${styles.navList} ${styles.navOpen}` : styles.navList}>
+        <li className={styles.navItem}><a href="/" className={styles.navLink}>Home</a></li>
+        <li className={styles.navItem}><a href="/powerhourform" className={styles.navLink}>PowerHour</a></li>
+        <li className={`${styles.navItem} ${styles.dropdown}`}>
+          <a href="#" className={styles.navLink}>RideTheBus</a>
+          <div className={styles.dropdownContent}>
+            <a href="/ridethebus/4-card-classic" className={styles.dropdownContentLink}>4 Card Classic</a>
+            <a href="/ridethebus/5-card-classic" className={styles.dropdownContentLink}>5 Card Classic</a>
           </div>
         </li>
-        <li><a href="/horserace">Horse Race</a></li>
-        <li><a href="/aroundtheworld">Around The World</a></li>
-        <li><a href="/propursuit">Pro Pursuit</a></li>
+        <li className={styles.navItem}><a href="/horserace" className={styles.navLink}>Horse Race</a></li>
+        <li className={styles.navItem}><a href="/aroundtheworld" className={styles.navLink}>Around The World</a></li>
+        <li className={styles.navItem}><a href="/propursuit" className={styles.navLink}>Pro Pursuit</a></li>
+        <li className={styles.navItem}><a href="/blackjack" className={styles.navLink}>BlackJack</a></li>
       </ul>
     </nav>
   );

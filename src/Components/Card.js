@@ -3,8 +3,6 @@ import React, {useState} from 'react';
 const Card = ({ value, suit, faceUp, onClick, className }) => {
   const [isFaceUp, setIsFaceUp] = useState(faceUp);
   
-
-  
   const handleOnClick= () =>{
     setIsFaceUp(!isFaceUp);
   }
