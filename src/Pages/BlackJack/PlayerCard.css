@@ -1,0 +1,39 @@
+.player-card {
+    display: flex;
+    align-items: center;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px;
+    background-color: white;
+    flex-direction: column;
+  }
+  
+  .player-icon {
+    width: 50px; /* Adjust size as needed */
+    height: 50px; /* Adjust size as needed */
+    border-radius: 50%;
+    margin-right: 15px;
+  }
+
+  .player-header{
+    display: flex;
+    align-items: center;
+  }
+  
+  .player-info h3 {
+    margin: 0;
+  }
+  
+  .player-cards {
+    display: flex;
+    margin-top: 5px;
+  }
+  
+  .card {
+    margin-right: 5px;
+    padding: 5px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+  }
+  
