@@ -2,10 +2,12 @@ import requests
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+import statsapi
 
 from nba_api.stats.static import players
 from nba_api.stats.static import teams
 from nba_api.stats.endpoints import commonplayerinfo, teaminfocommon, playerprofilev2
+import datetime
 
 
 cred = credentials.Certificate('serviceAccount.json')
@@ -14,48 +16,62 @@ firebase_admin.initialize_app(cred)
 db = firestore.client()
 
 def nhl_players():
-    players = db.collection(u'nhl_players')
-    docs = players.stream()
+    players_ref = db.collection(u'nhl_players')
+    query = players_ref.order_by(u'__name__').limit(100)  # Batch size of 100
 
-    for doc in docs:
-        r = requests.get("https://statsapi.web.nhl.com/api/v1/people/" + str(doc.id) + "/stats?stats=statsSingleSeason&season=20242025")
-        data = r.json()
-        if "stats" in data and "splits" in data["stats"][0] and len(data["stats"][0]["splits"]) > 0:
-            if "wins" in data["stats"][0]["splits"][0]["stat"]:
-                # Goalies
-                if "games" in data["stats"][0]["splits"][0]["stat"]:
-                    games = data["stats"][0]["splits"][0]["stat"]["games"]
-                    if games > 20:
-                        fantasy_relevant = True
-                    else:
-                        fantasy_relevant = False
-            else:
-                # Players
-                if "games" in data["stats"][0]["splits"][0]["stat"]:
-                    games = data["stats"][0]["splits"][0]["stat"]["games"]
-                    if games > 40:
-                        fantasy_relevant = True
-                    else:
-                        fantasy_relevant = False
-        
-        doc_ref = db.collection(u'nhl_players').document(str(doc.id))
-        doc_ref.update({
-            u'fantasy_relevant': fantasy_relevant,
-            u'starter': fantasy_relevant
-        })
+    while True:
+        docs = query.stream()
+        last_doc = None
+
+        for doc in docs:
+            try:
+                # Existing processing code for each document
+                r = requests.get(f"https://api-web.nhle.com/v1/player/{doc.id}/landing")
+                data = r.json()
+                fantasy_relevant = False
+                starter = False
+
+                season_stats = data.get("seasonTotals", [])
+                for season in season_stats:
+                    if season.get("gameTypeId") == 2 and season.get("season") == 20242025 and season.get("leagueAbbrev") == "NHL":
+                        position = data.get("position", "")
+                        if position == "G":
+                            if season.get("savePctg", 0) > 0.90:
+                                fantasy_relevant = True
+                                starter = True
+                        else:
+                            points_per_game = season.get("points", 0) / season.get("gamesPlayed", 1)
+                            if (position == "D" and points_per_game > 0.33) or (position != "D" and points_per_game > 0.5):
+                                fantasy_relevant = True
+                            toi = season.get("avgToi", "0:00")
+                            minutes = int(toi.split(":")[0])
+                            if minutes > 12:
+                                starter = True
+
+                # Update Firestore document
+                doc_ref = players_ref.document(doc.id)
+                doc_ref.update({
+                    u'fantasy_relevant': fantasy_relevant,
+                    u'starter': starter
+                })
+                last_doc = doc
+            except Exception as e:
+                print(f"Error processing NHL player {doc.id}: {e}")
+                continue
+
+        if not last_doc:
+            break  
+
+        query = players_ref.order_by(u'__name__').limit(100).start_after(last_doc)
 
 def nfl_players():
-    players = db.collection(u'nfl_players')
-    docs = players.stream()
-
-    season = "2023"
+    season = "2024"
     teams = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30","33", "34"]
     relevantPlayers = []
     for teamId in teams:
         r = requests.get(f"https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/{season}/teams/{teamId}/depthcharts")
         data = r.json()
         if "items" in data and len(data["items"]) != 0:
-            print("here")
             for formation in data["items"]:
                 if formation["name"] != "Special Teams":
                     if "positions" in formation:
@@ -154,10 +170,9 @@ def update_nfl_players_in_batches(relevantPlayers):
         docs = query.stream()
         last_doc = None
         for doc in docs:
-            print(str(doc.id) in relevantPlayers)
             doc_ref = db.collection(u'nfl_players').document(str(doc.id))
-            doc_data = doc.to_dict() # Convert the document to a dictionary
-            position = doc_data["position"] # Access the position field
+            doc_data = doc.to_dict() 
+            position = doc_data["position"]
 
             doc_ref.update({
                 u'starter': str(doc.id) in relevantPlayers
@@ -223,19 +238,82 @@ def nba_players():
                 last_doc = doc
                 continue
             
-
-        # If no more documents, break the loop
         if last_doc is None:
             break
 
-        # Use the last document as the start for the next batch
         query = players.order_by(u'__name__').limit(30).start_after(last_doc)
 
+def mlb_players():
+    players_ref = db.collection(u'mlb_players')
+    current_season = 2024
 
+    # Process in batches to avoid Firestore timeouts
+    query = players_ref.order_by(u'__name__').limit(100)  # Batch size of 100
 
+    while True:
+        docs = query.stream()
+        last_doc = None
 
+        for doc in docs:
+            player_id = doc.id
+            player_data = doc.to_dict()
+            position = player_data.get('position', '')
+            fantasy_relevant = False
+            starter = False
+
+            try:
+                # Fetch season stats using the correct endpoint and parameters
+                stats = statsapi.player_stat_data(
+                    personId=player_id,
+                    group="hitting" if position != "P" else "pitching",
+                    type="season",
+                    sportId=1,  # MLB
+                )
+
+                if stats and "stats" in stats:
+                    stat_data = stats["stats"][0].get("stats", {})
+
+                    if position != "P":
+                        # Hitter criteria
+                        plate_appearances = stat_data.get("plateAppearances", 0)
+                        games_played = stat_data.get("gamesPlayed", 0)
+                        fantasy_relevant = int(plate_appearances) >= 200 or int(games_played) >= 50
+                        starter = int(games_played) >= 50
+                    else:
+                        # Pitcher criteria
+                        games_started = stat_data.get("gamesStarted", 0)
+                        innings_pitched = stat_data.get("inningsPitched", 0)
+                        era = stat_data.get("era", 99.99)
+                        saves = stat_data.get("saves", 0)
+
+                        starter = int(games_started) >= 5
+                        fantasy_relevant = (
+                            (starter and float(innings_pitched) >= 50 and float(era) <= 4.50)
+                            or (not starter and int(saves) >= 5)
+                        )
+
+                    # Update Firestore document
+                    doc_ref = players_ref.document(player_id)
+                    doc_ref.update({
+                        u'fantasy_relevant': fantasy_relevant,
+                        u'starter': starter
+                    })
+                else:
+                    print(f"No stats found for player {player_id}")
+
+                last_doc = doc
+            except Exception as e:
+                print(f"Error processing MLB player {player_id}: {str(e)}")
+                continue
+
+        if not last_doc:
+            break  # Exit loop if no more documents
+
+        # Query next batch starting after the last document
+        query = players_ref.order_by(u'__name__').limit(100).start_after(last_doc)
 
 if __name__ == "__main__":
     #nhl_players()
-    nfl_players()
-    #nba_players()
+    #nfl_players()
+    nba_players()
+    #mlb_players()

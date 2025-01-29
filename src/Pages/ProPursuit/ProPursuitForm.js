@@ -37,6 +37,7 @@ const ProPursuitForm = ({ onClose, playerData, playerNames, nhlPlayerNames, nbaP
     const nhlPlayer = playerData["nhlPlayers"].find((player) => player.name === name);
     const nbaPlayer = playerData["nbaPlayers"].find((player) => player.name === name);
     const nflPlayer = playerData["nflPlayers"].find((player) => player.name === name);
+    const mlbPlayer = playerData["mlbPlayers"].find((player) => player.name === name);
 
     if (nhlPlayer) {
         return nhlPlayer;
@@ -44,7 +45,10 @@ const ProPursuitForm = ({ onClose, playerData, playerNames, nhlPlayerNames, nbaP
         return nbaPlayer;
     } else if (nflPlayer) {
         return nflPlayer;
-    } else {
+    } else if (mlbPlayer) {
+        return mlbPlayer;
+    }
+    else {
         return null;
     }
     };
@@ -52,7 +56,7 @@ const ProPursuitForm = ({ onClose, playerData, playerNames, nhlPlayerNames, nbaP
 
   const handlePlayerChange = (e) => {
     const player = e.target.value;
-    if ((selectedLeagues.includes('NHL') && selectedLeagues.includes('NBA') && selectedLeagues.includes('NFL')) || selectedLeagues.includes('All')) {
+    if ((selectedLeagues.includes('NHL') && selectedLeagues.includes('NBA') && selectedLeagues.includes('NFL')) && selectedLeagues.includes("MLB") || selectedLeagues.includes('All')) {
         const selectedPlayerData = findPlayerData(player);
 
         if (selectedPool.includes('All') || (selectedPool.includes('Fantasy Relevant') && selectedPool.includes('Starter'))) {
@@ -1137,7 +1141,7 @@ const ProPursuitForm = ({ onClose, playerData, playerNames, nhlPlayerNames, nbaP
           <div className="player-leagues">
             <label>Player Leagues:</label>
             <div className="radio-buttons">
-            {['NHL', 'NBA', 'NFL', 'All'].map((league) => (
+            {['NHL', 'NBA', 'NFL', 'MLB', 'All'].map((league) => (
               <label key={league} className={`radio-button ${selectedLeagues.includes(league) ? 'active' : ''}`}>
                   <input type="checkbox" name="league" value={league} checked={selectedLeagues.includes(league)} onChange={() => handleLeagueChange(league)} />
                   <span>{league}</span>

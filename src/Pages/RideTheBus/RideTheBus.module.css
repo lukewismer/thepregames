@@ -123,13 +123,11 @@ animation-duration: 1s;
 
 .btnRow {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
     flex-wrap: wrap;
-    margin-top: 2rem;
+    justify-content: center;
+    margin-top: 1rem;
     margin-bottom: 2rem;
-}
+  }
 
 .btnRow > div {
     display: flex;
@@ -179,10 +177,11 @@ h2.subHeader {
 }
 
 .shuffleBtn {
-    padding: 15px 25px;
-    font-size: 1.2rem;
+    padding: 12px 20px;
+    font-size: 1rem;
     margin: 1rem auto;
     display: block;
+    border-radius: 5px;
     background-color: var(--accent-color);
     border: 1px solid var(--accent-color);
 }
@@ -197,13 +196,31 @@ h2.subHeader {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
     margin-bottom: 1rem;
-}
+  }
 
 .rideTheBus {
     background: linear-gradient(to bottom, #00c6ff, #ffffff);
-    height: 100vh;
+    min-height: 100vh;
     width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.card {
+    width: 80px;
+    height: 120px;
+    margin: 5px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 2px rgba(0,0,0,0.25);
+}
+
+@media (min-width: 768px) {
+    .card {
+      width: 100px;
+      height: 150px;
+    }
 }
 
 .card.done {
@@ -307,4 +324,24 @@ h2.subHeader {
     justify-content: center;
     align-items: center;
     margin-top: 1.5rem;
+  }
+
+  .rtbIconRow img.rtbIcon {
+    width: 80px;
+    height: auto;
+  }
+
+  @media (min-width: 600px) {
+    .rtbIconRow img.rtbIcon {
+      width: 120px;
+    }
+  }
+  
+  /* Additional media query for narrower phones */
+  @media (max-width: 400px) {
+    .btnRow button {
+      font-size: 0.9rem;
+      padding: 8px 16px;
+      margin: 5px;
+    }
   }

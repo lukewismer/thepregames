@@ -23,6 +23,7 @@ const ProPursuit = () => {
     const [ nflPlayers, setNflPlayers ] = useState([]);
     const [ nhlPlayers, setNhlPlayers ] = useState([]);
     const [ nbaPlayers, setNbaPlayers ] = useState([]);
+    const [ mlbPlayers, setMlbPlayers ] = useState([]);
 
     const [ selectedLeagues, setSelectedLeagues ] = useState([]);
     const [ selectedPool, setSelectedPool ] = useState([]);
@@ -162,30 +163,38 @@ const ProPursuit = () => {
     
                 const nflPlayersCollection = collection(db, 'nfl_players');
                 const nflPlayersSnapshot = await getDocs(nflPlayersCollection);
+
+                const mlbPlayersCollection = collection(db, 'mlb_players');
+                const mlbPlayersSnapshot = await getDocs(mlbPlayersCollection);
     
                 const nbaPlayersList = nbaPlayersSnapshot.docs.map(doc => doc.data());
                 const nhlPlayersList = nhlPlayersSnapshot.docs.map(doc => doc.data());
                 const nflPlayersList = nflPlayersSnapshot.docs.map(doc => doc.data());
+                const mlbPlayersList = mlbPlayersSnapshot.docs.map(doc => doc.data());
     
                 const playersData = {
                     nbaPlayers: nbaPlayersList,
                     nhlPlayers: nhlPlayersList,
-                    nflPlayers: nflPlayersList
+                    nflPlayers: nflPlayersList,
+                    mlbPlayers: mlbPlayersList
                 };
     
                 const allPlayerNames = [
                     ...nbaPlayersList.map(player => `${player.name} - (${player.team})`),
                     ...nhlPlayersList.map(player => `${player.name} - (${player.Team})`),
                     ...nflPlayersList.map(player => `${player.name} - (${player.team})`),
+                    ...mlbPlayersList.map(player => `${player.name} - (${player.team})`)
                 ];
     
                 const nbaPlayerNames = nbaPlayersList.map(player => `${player.name} - (${player.team})`);
                 const nhlPlayerNames = nhlPlayersList.map(player => `${player.name} - (${player.Team})`);
                 const nflPlayerNames = nflPlayersList.map(player => `${player.name} - (${player.team})`);
+                const mlbPlayerNames = mlbPlayersList.map(player => `${player.name} - (${player.team})`);
     
                 setNbaPlayers(nbaPlayerNames);
                 setNhlPlayers(nhlPlayerNames);
                 setNflPlayers(nflPlayerNames);
+                setMlbPlayers(mlbPlayerNames);
                 
                 setPlayersNames(allPlayerNames);
                 setData(playersData);
@@ -194,6 +203,7 @@ const ProPursuit = () => {
                 localStorage.setItem('nbaPlayers', JSON.stringify(nbaPlayerNames));
                 localStorage.setItem('nhlPlayers', JSON.stringify(nhlPlayerNames));
                 localStorage.setItem('nflPlayers', JSON.stringify(nflPlayerNames));
+                localStorage.setItem('mlbPlayers', JSON.stringify(mlbPlayerNames));
                 localStorage.setItem('allPlayerNames', JSON.stringify(allPlayerNames));
                 localStorage.setItem('playersData', JSON.stringify(playersData));
     
@@ -224,8 +234,9 @@ const ProPursuit = () => {
         const nbaPlayer = data.nbaPlayers.find(player => player.name === playerName && player.team === playerTeam);
         const nhlPlayer = data.nhlPlayers.find(player => player.name === playerName && player.Team === playerTeam);
         const nflPlayer = data.nflPlayers.find(player => player.name === playerName && player.team === playerTeam);
+        const mlbPlayer = data.mlbPlayers.find(player => player.name === playerName && player.team === playerTeam);
 
-        const player = nbaPlayer ? nbaPlayer : nhlPlayer ? nhlPlayer : nflPlayer;
+        const player = nbaPlayer || nhlPlayer || nflPlayer || mlbPlayer;
         return player;
     };
 
@@ -236,8 +247,12 @@ const ProPursuit = () => {
             return 'NBA';
         } else if (nhlPlayers.includes(playerName)) {
             return 'NHL';
+        } else if (nflPlayers.includes(playerName)) {
+            return 'NFL';
+        } else if (mlbPlayers.includes(playerName)) {
+            return 'MLB';
         }
-        return 'NFL';
+        return 'NA';
     };
 
     
