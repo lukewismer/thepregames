@@ -126,33 +126,43 @@ def nfl_players():
                             rcb = positions["rcb"]
                             relevantPlayers.append(getNFLPlayerId(rcb["athletes"][0]["athlete"]["$ref"]))
                         else:
+                            
                             # Offense 3WR 1TE
                             positions = formation["positions"]
-                            wr = positions["wr"]
-                            for wrs in wr["athletes"]:
-                                if wrs["rank"] == 1:
-                                    relevantPlayers.append(getNFLPlayerId(wrs["athlete"]["$ref"]))
-                                if wrs["rank"] == 2:
-                                    relevantPlayers.append(getNFLPlayerId(wrs["athlete"]["$ref"]))
-                                if wrs["rank"] == 3:
-                                    relevantPlayers.append(getNFLPlayerId(wrs["athlete"]["$ref"]))
-                            te = positions["te"]
-                            relevantPlayers.append(getNFLPlayerId(te["athletes"][0]["athlete"]["$ref"]))
-                            qb = positions["qb"]
-                            relevantPlayers.append(getNFLPlayerId(qb["athletes"][0]["athlete"]["$ref"]))
-                            rb = positions["rb"]
-                            relevantPlayers.append(getNFLPlayerId(rb["athletes"][0]["athlete"]["$ref"]))
-                            relevantPlayers.append(getNFLPlayerId(rb["athletes"][1]["athlete"]["$ref"]))
-                            lt = positions["lt"]
-                            relevantPlayers.append(getNFLPlayerId(lt["athletes"][0]["athlete"]["$ref"]))
-                            lg = positions["lg"]
-                            relevantPlayers.append(getNFLPlayerId(lg["athletes"][0]["athlete"]["$ref"]))
-                            c = positions["c"]
-                            relevantPlayers.append(getNFLPlayerId(c["athletes"][0]["athlete"]["$ref"]))
-                            rg = positions["rg"]
-                            relevantPlayers.append(getNFLPlayerId(rg["athletes"][0]["athlete"]["$ref"]))
-                            rt = positions["rt"]
-                            relevantPlayers.append(getNFLPlayerId(rt["athletes"][0]["athlete"]["$ref"]))
+                            if "wr" in positions:
+                                wr = positions["wr"]
+                                for wrs in wr["athletes"]:
+                                    if wrs["rank"] == 1:
+                                        relevantPlayers.append(getNFLPlayerId(wrs["athlete"]["$ref"]))
+                                    if wrs["rank"] == 2:
+                                        relevantPlayers.append(getNFLPlayerId(wrs["athlete"]["$ref"]))
+                                    if wrs["rank"] == 3:
+                                        relevantPlayers.append(getNFLPlayerId(wrs["athlete"]["$ref"]))
+                            if "te" in positions:
+                                te = positions["te"]
+                                relevantPlayers.append(getNFLPlayerId(te["athletes"][0]["athlete"]["$ref"]))
+                            if "qb" in positions:
+                                qb = positions["qb"]
+                                relevantPlayers.append(getNFLPlayerId(qb["athletes"][0]["athlete"]["$ref"]))
+                            if "rb" in positions:
+                                rb = positions["rb"]
+                                relevantPlayers.append(getNFLPlayerId(rb["athletes"][0]["athlete"]["$ref"]))
+                                relevantPlayers.append(getNFLPlayerId(rb["athletes"][1]["athlete"]["$ref"]))
+                            if "lt" in positions:
+                                lt = positions["lt"]
+                                relevantPlayers.append(getNFLPlayerId(lt["athletes"][0]["athlete"]["$ref"]))
+                            if "lg" in positions:
+                                lg = positions["lg"]
+                                relevantPlayers.append(getNFLPlayerId(lg["athletes"][0]["athlete"]["$ref"]))
+                            if "c" in positions:
+                                c = positions["c"]
+                                relevantPlayers.append(getNFLPlayerId(c["athletes"][0]["athlete"]["$ref"]))
+                            if "rg" in positions:
+                                rg = positions["rg"]
+                                relevantPlayers.append(getNFLPlayerId(rg["athletes"][0]["athlete"]["$ref"]))
+                            if "rt" in positions:
+                                rt = positions["rt"]
+                                relevantPlayers.append(getNFLPlayerId(rt["athletes"][0]["athlete"]["$ref"]))
 
 
     
@@ -245,7 +255,6 @@ def nba_players():
 
 def mlb_players():
     players_ref = db.collection(u'mlb_players')
-    current_season = 2024
 
     # Process in batches to avoid Firestore timeouts
     query = players_ref.order_by(u'__name__').limit(100)  # Batch size of 100
@@ -314,6 +323,8 @@ def mlb_players():
 
 if __name__ == "__main__":
     #nhl_players()
-    #nfl_players()
-    nba_players()
     #mlb_players()
+    #nba_players()
+    nfl_players()
+    
+    

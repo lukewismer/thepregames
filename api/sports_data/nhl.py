@@ -62,7 +62,8 @@ def main():
         p["age"] = convert_birthday_to_age(p["birthDate"])
         p["Division"] = d
         p["Conference"] = c
-        p["Team"] = nm
+        p["team"] = nm
+        p["league"] = "NHL"
         new_ids.add(str(p["id"]))
         db.collection("nhl_players").document(str(p["id"])).set(p)
 

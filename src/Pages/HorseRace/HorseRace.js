@@ -197,9 +197,10 @@ const HorseRace = () => {
         <div className={styles.contentContainer}>
             <Navbar />
             <div className={styles.horseRace}>
+            <FaQuestion className={styles.instructionsIcon} onClick={() => setIsInstructionsOpen(true)} />
                 <div className={styles.horseRaceTitleRow}>
                     <h1 className={styles.horseRaceTitle}>Horse Race</h1>
-                    <FaQuestion className={styles.instructionsBtnHr} onClick={() => setIsInstructionsOpen(true)} />
+                    
                 </div>
                 { isInstructionsOpen && <Instructions gameTitle="Horse Race" subheader="Pick Your Horse, Place Your Bets and Get Ready To Cheer!" icon={icon} instructionsText="Pick your horse (represented as the aces) and place your bet.
                 Your bet can be any number of sips and if your horse is the winner you can hand out your drinks. If your horse loses you have to do whatever you bet. If the card flipped is the same suit as your horse, your horse advances 1

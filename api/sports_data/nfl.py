@@ -48,6 +48,7 @@ def main():
                     "team": team_data["displayName"],
                     "division": group_data["name"],
                     "conference": group_data["name"].split(" ")[0],
+                    "league": "NFL"
                 })
 
         page_index += 1

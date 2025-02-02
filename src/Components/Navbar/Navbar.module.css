@@ -5,8 +5,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-sizing: border-box;;
-  width: 100%
+  box-sizing: border-box;
+  width: 100%;
+  position: relative;
 }
 
 .navList {
@@ -68,6 +69,7 @@
   display: none;
   flex-direction: column;
   cursor: pointer;
+  padding: 5px;
 }
 
 .hamburgerLine {
@@ -86,24 +88,86 @@
   display: block;
 }
 
+.dropdownArrow {
+  margin-left: 8px;
+  font-size: 0.8em;
+  display: none;
+}
+
 @media (max-width: 768px) {
+  .navbar {
+    flex-direction: column; 
+    align-items: flex-start;
+    padding: 10px 15px;
+    min-height: 60px;
+  }
+
   .navList {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-    text-align: center;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
     background-color: #333;
+    z-index: 1000;
+    display: none;
+    padding: 10px 0;
+    transition: all 0.3s ease-out;
+    max-height: 0;
+    overflow: hidden;
   }
 
   .navOpen {
-    display: block;
+    display: flex !important; 
+    flex-direction: column;
+    max-height: 1000px;
   }
 
   .navItem {
-    margin: 10px 0;
+    width: 100%;
+    padding: 12px 15px;
+    margin: 0;
+    border-top: 1px solid #444;
+  }
+
+  .dropdown {
+    flex-direction: column;
+  }
+
+  .dropdownContent {
+    padding: 0 !important;
+    margin-top: 8px;
+    background-color: var(--primary-color);
+
+  }
+
+  .dropdownContentLink {
+    padding: 10px 35px !important;
+    background-color: var(--primary-color);
+  }
+
+  .dropdownActive .dropdownContent {
+    display: flex !important;
+    flex-direction: column;
   }
 
   .hamburger {
+    display: flex !important;
+    padding: 10px;
+    position: relative;
+    z-index: 1001;
+  }
+
+  .dropdownHeader {
+    cursor: pointer;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .dropdownArrow {
+    margin-left: 8px;
+    font-size: 0.8em;
   }
 }
+

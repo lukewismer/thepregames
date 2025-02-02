@@ -101,3 +101,84 @@
 .btnInstructions {
   margin-left: 10px;
 }
+
+@media (max-width: 768px) {
+  .formContainer {
+    margin: 15px;
+    padding: 20px;
+  }
+
+  .formRow {
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 15px 0;
+  }
+
+  .nameList {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .inputField {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .addButton {
+    width: 100%;
+    margin: 5px 0;
+  }
+
+  .formRow div {
+    margin: 8px 0;
+    width: 100%;
+  }
+
+  .formBtn {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .nameListItem {
+    font-size: 0.9rem;
+  }
+
+  .removeButton {
+    padding: 3px 8px;
+    margin-left: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nameList {
+    grid-template-columns: 1fr;
+  }
+
+  .inputField,
+  .addButton,
+  .formBtn {
+    font-size: 16px; /* Larger text for mobile inputs */
+  }
+
+  .formRow div label {
+    display: flex;
+    align-items: center;
+  }
+
+  .formRow div input[type="radio"] {
+    transform: scale(1.2);
+    margin-right: 5px;
+    position: relative;
+    top: 17px; /* Fine-tune vertical position */
+    margin-left: 5rem;
+  }
+}
+
+/* Add touch-friendly hover states */
+@media (hover: none) {
+  .addButton:hover,
+  .formBtn:hover,
+  .removeButton:hover {
+    transform: none;
+    filter: none;
+  }
+}

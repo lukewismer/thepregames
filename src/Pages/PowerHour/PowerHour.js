@@ -107,19 +107,11 @@ const PowerHour = () => {
     setPlaying(true);
   };
 
-  const handlePause = () => {
-    setPlaying(false);
-  };
-
   const handleReset = () => {
     setIsRunning(false);
     setTime({ min: 0, sec: 0 });
     setCurrentSongIndex(0);
     navigate("/powerhourform");
-  };
-
-  const handleProgress = state => {
-    setProgress(state.played * 100);
   };
 
   const progressStrokeDashoffset = circleCircumference - (progress * circleCircumference);
@@ -178,7 +170,11 @@ const PowerHour = () => {
 
         <div className={styles.trackDisplay}>
           {isRunning ? (
-            <ReactPlayer className={styles.reactPlayer} url={songs[currentSongIndex].url} playing={isRunning} />
+            <ReactPlayer className={styles.reactPlayer} url={songs[currentSongIndex].url} playing={isRunning} config={{
+              youtube: {
+                playerVars: { playsinline: 1 }
+              }
+            }} />
           ) : (
             <p>Song Paused</p>
           )}

@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { ref, onValue, set, update } from 'firebase/database';
+import { ref, onValue, set } from 'firebase/database';
 import { database } from '../../firebase';
 import styles from './Tournament.module.css';
 import { GetTeamLogo } from './Tournament'; 
-import { secureSet, secureUpdate } from './SecureDB';
-
-const TOTAL_TIMESLOTS = 11;
+import { secureUpdate } from './SecureDB';
 
 const Schedule = ({ teams }) => {
   const [games, setGames] = useState([]);
@@ -29,143 +27,67 @@ const Schedule = ({ teams }) => {
   }, [teams]);
 
   const generateSchedule = async (teamsArray) => {
-    if (!teamsArray.length) return;
+    const games = [];
+    
+    for (let i = 0; i < teamsArray.length; i++) {
+      for (let j = i + 1; j < teamsArray.length; j++) {
+        let homeTeamId, awayTeamId;
+        if ((i + j) % 2 === 0) {
+          homeTeamId = teamsArray[i][0];
+          awayTeamId = teamsArray[j][0];
+        } else {
+          homeTeamId = teamsArray[j][0];
+          awayTeamId = teamsArray[i][0];
+        }
   
-    const teamIds = teamsArray.map(([tid]) => tid);
-    const totalTeams = teamIds.length;
-    const maxHome = (totalTeams - 1) / 2;
-    const maxMain = (totalTeams - 1) / 2;
-  
-    if ((totalTeams - 1) % 2 !== 0) {
-      alert("Number of teams must allow even home/away and TV splits.");
-      return;
+        games.push({
+          id: "",
+          homeTeam: homeTeamId,
+          awayTeam: awayTeamId,
+          tv: "",
+          timeslot: 0,
+          completed: false,
+          homeScore: 0,
+          awayScore: 0,
+          ot: false
+        });
+      }
     }
   
-    const allMatches = [];
-    for (let i = 0; i < totalTeams; i++) {
-      for (let j = i + 1; j < totalTeams; j++) {
-        allMatches.push([teamIds[i], teamIds[j]]);
-      }
-    }
-  
-    shuffleArray(allMatches);
-  
-    const homeCounts = {};
-    const mainCounts = {};
-    teamIds.forEach(id => {
-      homeCounts[id] = 0;
-      mainCounts[id] = 0;
-    });
-  
-    const scheduledGames = [];
-    const timeslots = [];
-  
-    allMatches.forEach(match => {
-      const [teamA, teamB] = match;
-      
-      // Find earliest available timeslot that has space and no conflicts
-      let targetSlot = 0;
-      while (true) {
-        const currentSlot = timeslots[targetSlot];
-        if (currentSlot) {
-          const isFull = currentSlot.length >= 2;
-          const hasConflict = currentSlot.some(({ homeTeam, awayTeam }) => 
-            homeTeam === teamA || awayTeam === teamA ||
-            homeTeam === teamB || awayTeam === teamB
-          );
-          if (!isFull && !hasConflict) break;
-        } else {
-          break;
-        }
-        targetSlot++;
-      }
-  
-      // Determine home/away
-      let homeTeam, awayTeam;
-      if (homeCounts[teamA] <= homeCounts[teamB]) {
-        homeTeam = teamA;
-        awayTeam = teamB;
-      } else {
-        homeTeam = teamB;
-        awayTeam = teamA;
-      }
-      homeCounts[homeTeam]++;
-  
-      // Determine TV channel
-      const existingGames = timeslots[targetSlot] || [];
-      let tv;
-      
-      if (existingGames.length === 0) {
-        // First game in slot - balance main counts
-        if (mainCounts[homeTeam] < maxMain && mainCounts[awayTeam] < maxMain) {
-          tv = 'main';
-          mainCounts[homeTeam]++;
-          mainCounts[awayTeam]++;
-        } else {
-          tv = 'small';
-        }
-      } else {
-        // Second game in slot - alternate TV
-        tv = existingGames[0].tv === 'main' ? 'small' : 'main';
-        
-        // Validate main counts if needed
-        if (tv === 'main' && 
-            (mainCounts[homeTeam] >= maxMain || mainCounts[awayTeam] >= maxMain)) {
-          tv = 'small';
-        }
-        
-        if (tv === 'main') {
-          mainCounts[homeTeam]++;
-          mainCounts[awayTeam]++;
-        }
-      }
-  
-      const game = {
-        id: `${homeTeam}_${awayTeam}_${targetSlot}`,
-        homeTeam,
-        awayTeam,
-        tv,
-        timeslot: targetSlot + 1,
-        completed: false,
-        homeScore: 0,
-        awayScore: 0,
-        ot: false
-      };
-  
-      if (!timeslots[targetSlot]) timeslots[targetSlot] = [];
-      timeslots[targetSlot].push(game);
-      scheduledGames.push(game);
-    });
-  
-    // Flatten and save to Firebase
-    const updates = {};
-    scheduledGames.forEach(game => {
-      updates[game.id] = game;
-    });
-  
-    await set(ref(database, 'tournament/schedule'), updates);
-    setLoadingSchedule(false);
-  };
-
-  const shuffleArray = (array) => {
-    for (let i = array.length - 1; i > 0; i--) {
+    for (let i = games.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
+      [games[i], games[j]] = [games[j], games[i]];
     }
+  
+    const half = Math.floor(games.length / 2);
+    for (let i = 0; i < games.length; i++) {
+      games[i].tv = i < half ? "main" : "small";
+    }
+  
+    for (let i = 0; i < games.length; i++) {
+      games[i].id = `game_${i}`;
+      games[i].timeslot = i;
+    }
+  
+    const updates = games;
+    await set(ref(database, 'tournament/schedule'), updates);
   };
 
   const handleEditScore = (gameId, homeScore, awayScore) => {
-    const gameRef = ref(database, `tournament/schedule/${gameId}`);
+    const key = gameId.split('_')[1];
+    const gameRef = ref(database, `tournament/schedule/${key}`);
     secureUpdate(gameRef, { homeScore, awayScore });
   };
 
   const handleGameOver = (gameId) => {
-    const gameRef = ref(database, `tournament/schedule/${gameId}`);
+    const key = gameId.split('_')[1];
+    const gameRef = ref(database, `tournament/schedule/${key}`);
     secureUpdate(gameRef, { completed: true, timeslot: 100 });
   };
 
   const onToggleOT = (gameId, newOTValue) => {
-    const gameRef = ref(database, `tournament/schedule/${gameId}`);
+    const key = gameId.split('_')[1];
+    const gameRef = ref(database, `tournament/schedule/${key}`);
     secureUpdate(gameRef, { ot: newOTValue });
   };
 

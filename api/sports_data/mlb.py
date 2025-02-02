@@ -45,6 +45,7 @@ def main():
             "weight": player["weight"],
             "currentTeam": player["currentTeam"]["id"],
             "position": player["primaryPosition"]["abbreviation"],
+            "league": "MLB"
         }
 
         for tm in team_data:
