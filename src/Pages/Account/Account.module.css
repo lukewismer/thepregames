@@ -1,0 +1,81 @@
+.profileHeader {
+    margin-bottom: 2rem;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  
+  .profileSection {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+  
+  .avatarContainer {
+    position: relative;
+    width: 120px;
+    height: 120px;
+  }
+  
+  .profileAvatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #e0e0e0;
+  }
+  
+  .gearButton {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: #007bff;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .gearButton:hover {
+    background: #0056b3;
+    transform: rotate(90deg);
+  }
+  
+  .gearButton svg {
+    fill: white;
+    width: 20px;
+    height: 20px;
+  }
+  
+  .userInfo {
+    flex: 1;
+  }
+  
+  .userName {
+    font-size: 2rem;
+    margin: 0 0 0.5rem 0;
+    color: #333;
+  }
+  
+  .userEmail {
+    color: #666;
+    margin: 0 0 0.25rem 0;
+  }
+  
+  .userUsername {
+    color: #007bff;
+    margin: 0 0 1rem 0;
+    font-weight: 500;
+  }
+  
+  .accountAge {
+    color: #888;
+    font-size: 0.9rem;
+    margin: 0;
+  }
